@@ -1,6 +1,4 @@
 const { Router } = require("express");
-// const { WordModel, BookModel, BookCaseModel } = require("../db/schemas/word-schema");
-// const { wordDTO, bookDTO, bookCaseDTO } = require("../db/dto/word-dto");
 const { wordService, bookService, bookCaseService } = require("../services/word-service");
 const wordRouter = Router();
 
