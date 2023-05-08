@@ -32,9 +32,12 @@ app.use(express.json());
 // Content-Type: application/x-www-form-urlencoded 형태의 데이터를 인식하고 핸들링할 수 있게 함.
 app.use(express.urlencoded({ extended: false }));
 
-// 라우팅
+// 라우팅 (리슨은 나중에 고쳐도..?)
 app.get('/', async (req, res) => {
-  res.send('백엔드루트페이지')
+  res.send('안녕하세요')
 });
+app.listen(process.env.PORT, () => {
+  console.log(`http://localhost:${process.env.PORT}`)
+})
 
 module.exports = { app };
