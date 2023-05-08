@@ -1,9 +1,9 @@
 const { WordModel, BookModel, BookCaseModel } = require("../schemas/word-schema");
 
 class WordDTO {
-
-  async findOneById(params) {
-    const word = await WordModel.findOne({ params });
+  async findOneById({ short_id: id }) {
+    // console.log('dto : ' + { short_id: id })
+    const word = await WordModel.findOne({ short_id: id });
     return word;
   }
 
@@ -13,7 +13,8 @@ class WordDTO {
   }
 
   async createOne(params) {
-    const word = await WordModel.create(params);
+    const { english, korean, pronounce, description } = params;
+    const word = await WordModel.create({ english, korean, pronounce, description });
     return word;
   }
 
@@ -58,7 +59,9 @@ class BookCaseDTO {
   async deleteOne() { }
   async deleteAll() { }
 }
+
 const wordDTO = new WordDTO();
 const bookDTO = new BookDTO();
 const bookCaseDTO = new BookCaseDTO();
+
 module.exports = { wordDTO, bookDTO, bookCaseDTO };
