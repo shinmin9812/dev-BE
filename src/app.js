@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const app = express();
 
+const { wordRouter } = require('./routers/word-router');
+// const { userRouter } = require("./routers/user-router");
+
 const DB_URL =
 	process.env.MONGODB_URL || 'MongoDB 서버 주소가 설정되지 않았습니다.';
 
@@ -30,12 +33,15 @@ app.use(express.json());
 
 // Content-Type: application/x-www-form-urlencoded 형태의 데이터를 인식하고 핸들링할 수 있게 함.
 app.use(express.urlencoded({ extended: false }));
+app.use('/words', wordRouter);
 
 // 라우팅
 app.get('/', async (req, res) => {
-	res.send('백엔드루트페이지');
+	res.send('api 페이지 접속 성공');
 });
+app.use('/api/words', wordRouter);
 app.listen(process.env.PORT, () => {
 	console.log(`http://localhost:${process.env.PORT}`);
 });
+
 module.exports = { app };
