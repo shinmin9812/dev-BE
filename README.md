@@ -1,5 +1,9 @@
 # dev-BE
 
+
+## 이번주 백엔드 일정
+https://www.notion.so/elice/1-e950daa7cab9441f8cb187f8a690eb20
+
 1. 몽고db설정
 https://github.com/YubinShin/dev-BE/blob/main/mongodb.md
 
