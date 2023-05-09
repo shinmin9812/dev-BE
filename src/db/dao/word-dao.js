@@ -1,8 +1,8 @@
 const { WordModel, BookModel, BookCaseModel } = require("../schemas/word-schema");
 
-class WordDTO {
+class WordDAO {
   async findOneById({ short_id: id }) {
-    // console.log('dto : ' + { short_id: id })
+    // console.log('DAO : ' + { short_id: id })
     const word = await WordModel.findOne({ short_id: id });
     return word;
   }
@@ -40,7 +40,7 @@ class WordDTO {
 
 }
 
-class BookDTO {
+class BookDAO {
   async findById() { }
   async findAll() { }
   async createOne() { }
@@ -50,7 +50,7 @@ class BookDTO {
   async deleteAll() { }
 }
 
-class BookCaseDTO {
+class BookCaseDAO {
   async findById() { }
   async findAll() { }
   async createOne() { }
@@ -60,8 +60,8 @@ class BookCaseDTO {
   async deleteAll() { }
 }
 
-const wordDTO = new WordDTO();
-const bookDTO = new BookDTO();
-const bookCaseDTO = new BookCaseDTO();
+const wordDAO = new WordDAO();
+const bookDAO = new BookDAO();
+const bookCaseDAO = new BookCaseDAO();
 
-module.exports = { wordDTO, bookDTO, bookCaseDTO };
+module.exports = { wordDAO, bookDAO, bookCaseDAO };
