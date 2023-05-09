@@ -31,7 +31,10 @@ const BookSchema = new Schema({
     default: "korean",
     required: true
   }
-}, { collection: "Book", timestamps: true, });
+}, {
+  collection: "Book",
+  timestamps: true
+});
 
 /** 책장 스키마 */
 const BookCaseSchema = new Schema({
@@ -39,7 +42,11 @@ const BookCaseSchema = new Schema({
     type: [BookSchema],
     required: false
   }
-}, { collection: "BookCase", timestamps: true, });
+}, {
+  collection: "BookCase",
+  timestamps: true
+}
+);
 
 
 /** 단어, 단어장, 책장 모델 선언
@@ -50,7 +57,5 @@ const BookCaseSchema = new Schema({
 const WordModel = model("Word", WordSchema);
 const BookModel = model("Book", BookSchema);
 const BookCaseModel = model("BookCase", BookCaseSchema);
-
-
 
 module.exports = { WordModel, BookModel, BookCaseModel };
