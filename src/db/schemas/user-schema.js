@@ -1,33 +1,33 @@
-const { Schema, model } = require("mongoose");
-const { shortId } = require("../../utils/short-id");
+const { Schema, model } = require('mongoose');
+const { shortId } = require('../../utils/short-id');
+
 const UserSchema = new Schema(
-  {
-    short_id: shortId,
-    email: {
-      type: String,
-      required: true,
-    },
-    password: {
-      type: String,
-      required: true,
-      minLength: 8,
-    },
-    full_name: {
-      type: String,
-      required: true,
-    },
-    role: {
-      type: String,
-      required: false,
-      default: "basic-user",
-    },
-  },
-  {
-    collection: "User",
-    timestamps: true,
-  }
-)
+	{
+		userId: shortId,
+		userEmail: {
+			type: String,
+			required: true,
+			unique: true,
+		},
+		nickname: { type: String, required: true },
+		password: {
+			type: String,
+			required: true,
+			minLength: 8,
+		},
+		role: {
+			type: String,
+			enum: ['admin', 'user'],
+			required: false,
+			default: 'user',
+		},
+	},
+	{
+		collection: 'User',
+		timestamps: true,
+	},
+);
 
-const User = model("User", UserSchema);
+const UserModel = model('User', UserSchema);
 
-module.exports = { User };
+module.exports = { UserModel };
