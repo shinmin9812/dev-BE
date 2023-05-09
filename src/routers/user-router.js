@@ -21,15 +21,15 @@ userRouter.post('/', async (req, res) => {
 
 userRouter.delete('/:userEmail', async (req, res) => {
 	const { userEmail } = req.params;
-	const user = await userService.deleteUser(userEmail);
+	await userService.deleteUser(userEmail);
 	res.json(`${userEmail}삭제 성공`);
 });
 
 userRouter.put('/:userEmail', async (req, res) => {
 	const { userEmail } = req.params;
 	const userInfo = req.body;
-	const user = await userService.updateUser(userEmail, userInfo);
-	res.json({ userEmail, ...userInfo });
+	await userService.updateUser(userEmail, userInfo);
+	res.json(`${userEmail}수정 성공`);
 });
 
 module.exports = { userRouter };
