@@ -41,6 +41,8 @@ app.get('/', async (req, res) => {
   res.send('api 페이지 접속 성공')
 });
 app.use("/api/words", wordRouter);
+app.use("/api/books", bookRouter);
+
 app.listen(process.env.PORT, () => {
   console.log(`http://localhost:${process.env.PORT}`)
 })
