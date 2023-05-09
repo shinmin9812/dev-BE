@@ -17,7 +17,7 @@ wordRouter.get('/:id', asyncHandler(async (req, res) => {
 }))
 
 wordRouter.post('/', asyncHandler(async (req, res) => {
-  const newWord = req.body.word;
+  const newWord = req.body;
   /**word form 안에 사용자가 
    * english, korean, pronounce, description 을 담아보내야합니다. */
   const result = await wordService.createOne(newWord);
