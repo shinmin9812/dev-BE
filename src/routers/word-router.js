@@ -32,13 +32,6 @@ wordRouter.delete('/:id', asyncHandler(async (req, res) => {
   res.status(204).json('삭제 성공');
 }))
 
-// Get a word to edit
-wordRouter.get('/edit/:id', asyncHandler(async (req, res) => {
-  const { id } = req.params;
-  const result = await wordService.findOne({ short_id: id });
-  res.status(200).json(result);
-}))
-
 wordRouter.put('/:id', asyncHandler(async (req, res) => {
   const { id } = req.params;
   const updatedWord = req.body.word;

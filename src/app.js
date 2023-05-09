@@ -44,7 +44,6 @@ app.use('/api/words', wordRouter);
 app.use('/api/books', bookRouter);
 app.use('/api/users', userRouter);
 
-
 app.use(errorHandler);
 
 app.listen(process.env.PORT, () => {
