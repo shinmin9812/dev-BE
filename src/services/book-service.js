@@ -13,6 +13,7 @@ class BookService {
 
 	async createOne(params) {
 		const book = await bookDAO.createOne(params);
+
 		return book;
 	}
 

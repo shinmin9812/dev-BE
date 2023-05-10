@@ -1,6 +1,7 @@
 const { Router } = require('express');
-const { bookService } = require('../services/book-service');
 
+const { WordModel, BookModel, BookCaseModel } = require("../db/schemas/word-schema");
+const { bookService } = require('../services/word-service');
 const bookRouter = Router();
 
 bookRouter.get('/', async (req, res) => {
@@ -15,7 +16,7 @@ bookRouter.get('/:id', async (req, res) => {
 });
 
 bookRouter.post('/', async (req, res) => {
-	const newBook = req.body;
+	const newBook = req.body;  // 포스트맨 바디가 여기 담겨온다
 	console.log(newBook);
 	const result = await bookService.createOne(newBook);
 	res.json(result);
