@@ -7,6 +7,7 @@ class BookService {
 	}
 
 	async findAll() {
+		console.log("service")
 		const books = await bookDAO.findAll();
 		return books;
 	}
