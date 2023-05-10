@@ -1,19 +1,62 @@
 const { Router } = require('express');
-const { wordDAO } = require('../db/dao/word-dao');
-//bookDAO를 짜신후에 변경, 사용하시면 되겠습니다
+const { WordModel, BookModel, BookCaseModel } = require("../db/schemas/word-schema");
+const { bookService } = require('../services/word-service');
 const bookRouter = Router();
 
-bookRouter.get('/', (req, res) => {
-	res.json(`책 페이지에 온걸 환영해용`);
+bookRouter.get('/', async (req, res) => {
+	const result = await BookModel.find({});
+	res.json(result);
 });
 
 bookRouter.post('/', async (req, res) => {
-	console.log(req.body);
-	const 결과 = await wordDAO.create(req.body);
-	console.log(결과);
-	res.json(`잘왔어용`);
+	const newBook = req.body;
+  console.log(newBook)
+  const result =await BookModel.create(newBook);
+	res.json(result);
 });
 
-// bookRouter.delete()
+bookRouter.get('/:id', async (req, res) => {
+	console.log(req.params.id);
+	const { id } = req.params;
+	const result = await BookModel.find({ short_id: id });
+	res.json(result);
+});
+
+bookRouter.post('/', async (req, res) => {
+	const newBook = req.body.book;
+	console.log(newWord);
+	/**word form 안에 사용자가
+	 * english, korean, pronounce, description 을 담아보내야합니다. */
+	const result = await BookModel.createOne(newWord);
+	console.log(result);
+	res.json(result);
+});
+
+// bookRouter.delete('/:id', async (req, res) => {
+// 	const { id } = req.params;
+// 	const result = await bookService.deleteOne({ short_id: id });
+// 	console.log(result);
+// 	res.json('삭제 성공');
+// });
+
+bookRouter.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  const result = await BookModel.findOneAndDelete({ short_id: id });
+  res.json(result);
+})
+
+bookRouter.put('/:id', async (req, res) => {
+	const { id } = req.params;
+  const updatedBook = req.body; // 포스트맨의 바디에 쓴게 오는거다
+	const result = await BookModel.findOneAndUpdate({ short_id: id }, updatedBook);
+	res.json(result);
+});
+
+bookRouter.put('/:currname', async (req, res) => {
+	const { currname } = req.params;
+  const updatedBook = req.body; // 포스트맨의 바디에 쓴게 오는거다
+	const result = await BookModel.findOneAndUpdate({ name: currname }, updatedBook);
+	res.json(result);
+});
 
 module.exports = { bookRouter };
