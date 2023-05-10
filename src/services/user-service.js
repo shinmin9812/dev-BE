@@ -75,29 +75,34 @@ class UserService {
 			throw new Error('패스워드가 빈 값입니다.');
 		}
 
+		// 패스워드가 너무 짧은 경우
+		if (password.length < 8) {
+			throw new Error('패스워드가 너무 짧습니다. (8자 이상 필요합니다.)');
+		}
+
 		try {
-			const user = await userDAO.updateUser(userEmail, {
+			const { modifiedCount } = await userDAO.updateUser(userEmail, {
 				password: hashedPwd,
 				nickname,
 			});
-			if (!user[0]) {
+			if (!modifiedCount) {
 				throw new Error(`이메일이 ${userEmail}인 유저가 존재하지 않습니다.`);
 			}
-			return user;
+			return;
 		} catch (err) {
-			throw new Error('유저 업데이트에 실패했습니다.');
+			throw new Error(`유저 업데이트에 실패했습니다.: ${err.message}`);
 		}
 	}
 
 	async deleteUser(userEmail) {
 		try {
-			const user = await userDAO.deleteUser(userEmail);
-			if (!user) {
+			const { deletedCount } = await userDAO.deleteUser(userEmail);
+			if (!deletedCount) {
 				throw new Error(`이메일이 ${userEmail}인 유저가 존재하지 않습니다.`);
 			}
-			return user;
+			return;
 		} catch (err) {
-			throw new Error('유저 삭제에 실패했습니다.');
+			throw new Error(`유저 삭제에 실패했습니다: ${err.message}`);
 		}
 	}
 
