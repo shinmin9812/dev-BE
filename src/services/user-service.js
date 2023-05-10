@@ -18,7 +18,10 @@ class UserService {
 
 	async updateUser(userEmail, updatedInfo) {
 		const { password, nickname } = updatedInfo;
-		const user = await userDAO.updateUser(userEmail, { password, nickname });
+		const user = await userDAO.updateUser(userEmail, {
+			password,
+			nickname,
+		});
 		return user;
 	}
 

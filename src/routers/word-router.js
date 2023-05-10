@@ -11,8 +11,13 @@ const wordRouter = Router();
 wordRouter.get(
 	'/',
 	asyncHandler(async (req, res) => {
-		const result = await wordService.findAll();
-		res.status(200).json(result);
+		if (Object.keys(req.query).length > 0) {
+			const wordsByBook = await wordService.findWordsByBook(req.query.books);
+			res.status(200).json(wordsByBook);
+		} else {
+			const result = await wordService.findAll();
+			res.status(200).json(result);
+		}
 	}),
 );
 
