@@ -1,47 +1,61 @@
-const { Router } = require("express");
-const { wordService, bookService, bookCaseService } = require("../services/word-service");
+const { Router } = require('express');
+const {
+	wordService,
+	bookService,
+	bookCaseService,
+} = require('../services/word-service');
+const { asyncHandler } = require('../middlewares/async-handler');
+
 const wordRouter = Router();
 
-wordRouter.get('/', async (req, res) => {
-  const result = await wordService.findAll();
-  res.json(result);
-})
+wordRouter.get(
+	'/',
+	asyncHandler(async (req, res) => {
+		const result = await wordService.findAll();
+		res.status(200).json(result);
+	}),
+);
 
-wordRouter.get('/:id', async (req, res) => {
-  console.log(req.params.id)
-  const { id } = req.params;
-  const result = await wordService.findOneById({ short_id: id });
-  res.json(result);
-})
+wordRouter.get(
+	'/:id',
+	asyncHandler(async (req, res) => {
+		console.log(req.params.id);
+		const { id } = req.params;
+		const result = await wordService.findOneById({ short_id: id });
+		res.status(200).json(result);
+	}),
+);
 
-wordRouter.post('/', async (req, res) => {
-  const newWord = req.body.word;
-  console.log(newWord)
-  /**word form 안에 사용자가 
-   * english, korean, pronounce, description 을 담아보내야합니다. */
-  const result = await wordService.createOne(newWord);
-  console.log(result)
-  res.json(result);
-})
+wordRouter.post(
+	'/',
+	asyncHandler(async (req, res) => {
+		const newWord = req.body;
+		/**word form 안에 사용자가
+		 * english, korean, pronounce, description 을 담아보내야합니다. */
+		const result = await wordService.createOne(newWord);
+		console.log(result);
+		res.status(200).json(result);
+	}),
+);
 
-wordRouter.delete('/:id', async (req, res) => {
-  const { id } = req.params;
-  const result = await wordService.deleteOne({ short_id: id });
-  console.log(result);
-  res.json('삭제 성공');
-})
+wordRouter.delete(
+	'/:id',
+	asyncHandler(async (req, res) => {
+		const { id } = req.params;
+		const result = await wordService.deleteOne({ short_id: id });
+		console.log(result);
+		res.status(204).json('삭제 성공');
+	}),
+);
 
-wordRouter.get('/edit/:id', async (req, res) => {
-  const { id } = req.params;
-  const result = await wordService.findOne({ short_id: id });
-  res.json(result);
-})
-
-wordRouter.put('/:id', async (req, res) => {
-  const { id } = req.params;
-  const updatedWord = req.body.word;
-  const result = await wordService.updateOne({ short_id: id }, updatedWord);
-  res.json(result);
-})
+wordRouter.put(
+	'/:id',
+	asyncHandler(async (req, res) => {
+		const { id } = req.params;
+		const updatedWord = req.body.word;
+		const result = await wordService.updateOne({ short_id: id }, updatedWord);
+		res.status(200).json(result);
+	}),
+);
 
 module.exports = { wordRouter };
