@@ -1,41 +1,36 @@
 const { Router } = require('express');
-const {
-	WordModel,
-	BookModel,
-	BookCaseModel,
-} = require('../db/schemas/word-schema');
-const { wordDAO } = require('../db/dao/word-dao');
-//bookDAO를 짜신후에 변경, 사용하시면 되겠습니다
+const { bookService } = require('../services/book-service')
+
 const bookRouter = Router();
 
 bookRouter.get('/', async (req, res) => {
-	const result = await BookModel.find({});
+	const result = await bookService.findAll();
 	res.json(result);
 });
 
 bookRouter.get('/:id', async (req, res) => {
 	const { id } = req.params;
-	const result = await BookModel.find({ short_id: id });
+	const result = await bookService.findOneById({ short_id: id });
 	res.json(result);
 });
 
 bookRouter.post('/', async (req, res) => {
 	const newBook = req.body;
 	console.log(newBook);
-	const result = await BookModel.create(newBook);
+	const result = await bookService.createOne(newBook);
 	res.json(result);
 });
 
 bookRouter.delete('/:id', async (req, res) => {
 	const { id } = req.params;
-	const result = await BookModel.findOneAndDelete({ short_id: id });
+	const result = await bookService.deleteOne({ short_id: id });
 	res.json(result);
 });
 
 bookRouter.put('/short-id/:id', async (req, res) => {
 	const { id } = req.params;
 	const updatedBook = req.body;
-	const result = await BookModel.findOneAndUpdate(
+	const result = await bookService.updateOne(
 		{ short_id: id },
 		updatedBook,
 	);
@@ -46,7 +41,7 @@ bookRouter.put('/name/:currName', async (req, res) => {
 	const { currName } = req.params;
 	console.log(currName);
 	const updatedBook = req.body;
-	const result = await BookModel.findOneAndUpdate(
+	const result = await bookService.updateOne(
 		{ name: currName },
 		updatedBook,
 		{ new: true },
