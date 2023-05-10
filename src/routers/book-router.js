@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { bookService } = require('../services/book-service')
+const { bookService } = require('../services/book-service');
 
 const bookRouter = Router();
 
@@ -30,10 +30,7 @@ bookRouter.delete('/:id', async (req, res) => {
 bookRouter.put('/short-id/:id', async (req, res) => {
 	const { id } = req.params;
 	const updatedBook = req.body;
-	const result = await bookService.updateOne(
-		{ short_id: id },
-		updatedBook,
-	);
+	const result = await bookService.updateOne({ short_id: id }, updatedBook);
 	res.json(result);
 });
 
@@ -41,11 +38,9 @@ bookRouter.put('/name/:currName', async (req, res) => {
 	const { currName } = req.params;
 	console.log(currName);
 	const updatedBook = req.body;
-	const result = await bookService.updateOne(
-		{ name: currName },
-		updatedBook,
-		{ new: true },
-	);
+	const result = await bookService.updateOne({ name: currName }, updatedBook, {
+		new: true,
+	});
 	res.json(result);
 });
 
