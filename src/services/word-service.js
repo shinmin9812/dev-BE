@@ -39,27 +39,33 @@ class WordService {
 
 	async createOne(params) {
 		/** 없는 단어장을 기재하여 추가하려한다면 */
-		const isBookExist = await BookModel.find({ name: params.book });
-		if (!isBookExist) {
-			const err = new Error('새로운 단어를 추가하지 못했습니다.');
+		const existingBooks = await BookModel.find({ name: params.book });
+		const result = existingBooks.filter((item) => item.name === params.book);
+		console.log(result);
+		if (!result.length) {
+			const err = new Error("해당 단어장이 존재하지 않습니다.");
 			err.status = 422;
 			throw err;
 		}
+
 		/** 잘못된 요청을 받았다면 */
 		const word = await wordDAO.createOne(params);
-		if (!word) {
-			const err = new Error('새로운 단어를 추가하지 못했습니다.');
+		if (word === null) {
+			const err = new Error("새로운 단어를 추가하지 못했습니다.");
 			err.status = 422;
 			throw err;
 		}
+
 		return word;
 	}
 
 	async createMany(params) {
 		/** 없는 단어장을 기재하여 추가하려한다면 */
-		const isBookExist = await BookModel.find({ name: params.book });
-		if (!isBookExist) {
-			const err = new Error('새로운 단어를 추가하지 못했습니다.');
+		const existingBooks = await BookModel.find({ name: params.book });
+		const result = existingBooks.filter((item) => item.name === params.book);
+		console.log(result);
+		if (!result.length) {
+			const err = new Error("해당 단어장이 존재하지 않습니다.");
 			err.status = 422;
 			throw err;
 		}
@@ -75,10 +81,12 @@ class WordService {
 	}
 
 	async updateOne(find, update) {
-		/** 없는 단어장을 기재하여 수정하려한다면 */
-		const isBookExist = await BookModel.find({ name: params.book });
-		if (!isBookExist) {
-			const err = new Error('새로운 단어를 추가하지 못했습니다.');
+		/** 없는 단어장을 기재하여 추가하려한다면 */
+		const existingBooks = await BookModel.find({ name: params.book });
+		const result = existingBooks.filter((item) => item.name === params.book);
+		console.log(result);
+		if (!result.length) {
+			const err = new Error("해당 단어장이 존재하지 않습니다.");
 			err.status = 422;
 			throw err;
 		}

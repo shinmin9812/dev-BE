@@ -7,7 +7,6 @@ const WordSchema = new Schema(
 		short_id: shortId,
 		english: { type: String, required: true },
 		korean: { type: String, required: true },
-		pronounce: { type: String },
 		description: { type: String },
 		book: { type: String, default: '기본단어장' },
 	},
