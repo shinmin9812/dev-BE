@@ -36,7 +36,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/words', wordRouter);
 
-// 라우팅 (리슨은 나중에 고쳐도..?)
+// 라우팅
 app.get('/', async (req, res) => {
   res.send('api 페이지 접속 성공')
 });
