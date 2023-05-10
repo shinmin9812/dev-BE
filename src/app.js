@@ -7,6 +7,7 @@ const app = express();
 const { wordRouter } = require('./routers/word-router');
 const { bookRouter } = require('./routers/book-router');
 const { userRouter } = require('./routers/user-router');
+const { errorHandler } = require('./middlewares/error-handler');
 
 const DB_URL =
 	process.env.MONGODB_URL || 'MongoDB 서버 주소가 설정되지 않았습니다.';
@@ -34,8 +35,6 @@ app.use(express.json());
 
 // Content-Type: application/x-www-form-urlencoded 형태의 데이터를 인식하고 핸들링할 수 있게 함.
 app.use(express.urlencoded({ extended: false }));
-app.use('/words', wordRouter);
-app.use('/users', userRouter);
 
 // 라우팅
 app.get('/', async (req, res) => {
@@ -44,6 +43,8 @@ app.get('/', async (req, res) => {
 app.use('/api/words', wordRouter);
 app.use('/api/books', bookRouter);
 app.use('/api/users', userRouter);
+
+app.use(errorHandler);
 
 app.listen(process.env.PORT, () => {
 	console.log(`http://localhost:${process.env.PORT}`);
