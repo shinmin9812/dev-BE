@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const { hashedPassword } = require('../utils/hashing');
 const { userDAO } = require('../db/dao/user-dao');
 
