@@ -1,10 +1,12 @@
-const {
-	WordModel,
-	BookModel,
-	BookCaseModel,
-} = require('../schemas/word-schema');
+const { WordModel } = require('../schemas/word-schema');
 
 class WordDAO {
+	/**단어장에 따라 단어찾기 */
+	async findWordsByBook(books) {
+		const words = await WordModel.find({ book: books });
+		return words;
+	}
+
 	async findOneById({ short_id: id }) {
 		// console.log('DAO : ' + { short_id: id })
 		const word = await WordModel.findOne({ short_id: id });
@@ -48,28 +50,6 @@ class WordDAO {
 	}
 }
 
-class BookDAO {
-	async findById() {}
-	async findAll() {}
-	async createOne() {}
-	async createMany() {}
-	async updateOne() {}
-	async deleteOne() {}
-	async deleteAll() {}
-}
-
-class BookCaseDAO {
-	async findById() {}
-	async findAll() {}
-	async createOne() {}
-	async createMany() {}
-	async updateOne() {}
-	async deleteOne() {}
-	async deleteAll() {}
-}
-
 const wordDAO = new WordDAO();
-const bookDAO = new BookDAO();
-const bookCaseDAO = new BookCaseDAO();
 
-module.exports = { wordDAO, bookDAO, bookCaseDAO };
+module.exports = { wordDAO };

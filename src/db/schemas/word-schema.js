@@ -7,51 +7,11 @@ const WordSchema = new Schema(
 		short_id: shortId,
 		english: { type: String, required: true },
 		korean: { type: String, required: true },
-		pronounce: { type: String },
 		description: { type: String },
+		book: { type: String, default: '기본단어장' },
 	},
 	{
 		collection: 'Word',
-		timestamps: true,
-	},
-);
-
-/** 단어장 스키마 */
-const BookSchema = new Schema(
-	{
-		short_id: shortId,
-		name: { type: String, required: true },
-		words: [WordSchema],
-		description: { type: String },
-		start_lang: {
-			type: String,
-			enum: ['english', 'korean'],
-			default: 'english',
-			required: true,
-		},
-		end_lang: {
-			type: String,
-			enum: ['english', 'korean'],
-			default: 'korean',
-			required: true,
-		},
-	},
-	{
-		collection: 'Book',
-		timestamps: true,
-	},
-);
-
-/** 책장 스키마 */
-const BookCaseSchema = new Schema(
-	{
-		name: {
-			type: [BookSchema],
-			required: false,
-		},
-	},
-	{
-		collection: 'BookCase',
 		timestamps: true,
 	},
 );
@@ -62,7 +22,5 @@ const BookCaseSchema = new Schema(
  *  db에 입력됩니다.
  */
 const WordModel = model('Word', WordSchema);
-const BookModel = model('Book', BookSchema);
-const BookCaseModel = model('BookCase', BookCaseSchema);
 
-module.exports = { WordModel, BookModel, BookCaseModel };
+module.exports = { WordModel };
