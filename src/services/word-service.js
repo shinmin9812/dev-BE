@@ -8,6 +8,18 @@ const {
 
 class WordService {
 
+
+	async findWordsByBook(books) {
+		const words = await wordDAO.findWordsByBook(books);
+		if (!words) {
+			const err = new Error('단어를 찾을 수 없습니다.');
+			err.status = 404;
+			throw err;
+		}
+		return words;
+	}
+
+
 	async findOneById({ short_id: id }) {
 		const word = await wordDAO.findOneById({ short_id: id });
 		if (!word) {
