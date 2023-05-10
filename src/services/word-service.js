@@ -1,4 +1,10 @@
 const { wordDAO } = require('../db/dao/word-dao');
+// const { bookDAO } = require('../db/dao/book-dao');
+const {
+	WordModel,
+	BookModel,
+	BookCaseModel,
+} = require('../db/schemas/word-schema');
 
 class WordService {
 	async findOneById({ short_id: id }) {
@@ -22,6 +28,12 @@ class WordService {
 	}
 
 	async createOne(params) {
+		const isBookExist = await BookModel.find({ name: params.book });
+		if (!isBookExist) {
+			const err = new Error('새로운 단어를 추가하지 못했습니다.');
+			err.status = 422;
+			throw err;
+		}
 		const word = await wordDAO.createOne(params);
 		if (!word) {
 			const err = new Error('새로운 단어를 추가하지 못했습니다.');
