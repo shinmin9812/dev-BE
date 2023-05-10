@@ -1,11 +1,6 @@
 const { Router } = require('express');
-const {
-	WordModel,
-	BookModel,
-	BookCaseModel,
-} = require('../db/schemas/word-schema');
-const { wordDAO } = require('../db/dao/word-dao');
-//bookDAO를 짜신후에 변경, 사용하시면 되겠습니다
+const { WordModel, BookModel, BookCaseModel } = require("../db/schemas/word-schema");
+const { bookService } = require('../services/word-service');
 const bookRouter = Router();
 
 bookRouter.get('/', async (req, res) => {
@@ -20,7 +15,7 @@ bookRouter.get('/:id', async (req, res) => {
 });
 
 bookRouter.post('/', async (req, res) => {
-	const newBook = req.body;
+	const newBook = req.body;  // 포스트맨 바디가 여기 담겨온다
 	console.log(newBook);
 	const result = await BookModel.create(newBook);
 	res.json(result);
@@ -51,7 +46,12 @@ bookRouter.put('/name/:currName', async (req, res) => {
 		updatedBook,
 		{ new: true },
 	);
-	res.json(result);
-});
+
+// bookRouter.delete('/:id', async (req, res) => {
+// 	const { id } = req.params;
+// 	const result = await bookService.deleteOne({ short_id: id });
+// 	console.log(result);
+// 	res.json('삭제 성공');
+// });
 
 module.exports = { bookRouter };
