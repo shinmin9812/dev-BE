@@ -7,8 +7,6 @@ const {
 } = require('../db/schemas/word-schema');
 
 class WordService {
-
-
 	async findWordsByBook(books) {
 		const words = await wordDAO.findWordsByBook(books);
 		if (!words) {
@@ -18,7 +16,6 @@ class WordService {
 		}
 		return words;
 	}
-
 
 	async findOneById({ short_id: id }) {
 		const word = await wordDAO.findOneById({ short_id: id });
@@ -41,7 +38,6 @@ class WordService {
 	}
 
 	async createOne(params) {
-
 		/** 없는 단어장을 기재하여 추가하려한다면 */
 		const isBookExist = await BookModel.find({ name: params.book });
 		if (!isBookExist) {
@@ -60,7 +56,6 @@ class WordService {
 	}
 
 	async createMany(params) {
-
 		/** 없는 단어장을 기재하여 추가하려한다면 */
 		const isBookExist = await BookModel.find({ name: params.book });
 		if (!isBookExist) {
@@ -80,7 +75,6 @@ class WordService {
 	}
 
 	async updateOne(find, update) {
-
 		/** 없는 단어장을 기재하여 수정하려한다면 */
 		const isBookExist = await BookModel.find({ name: params.book });
 		if (!isBookExist) {

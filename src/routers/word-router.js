@@ -11,12 +11,13 @@ const wordRouter = Router();
 wordRouter.get(
 	'/',
 	asyncHandler(async (req, res) => {
+
+		/**단어장에 속해 있는 단어 찾기 */
 		if (Object.keys(req.query).length > 0) {
-			const wordsByBook = await wordService.findWordsByBook(
-				req.query.books
-			);
+			const wordsByBook = await wordService.findWordsByBook(req.query.books);
 			res.status(200).json(wordsByBook);
 		} else {
+			/**db에 있는 모든 단어 찾기 */
 			const result = await wordService.findAll();
 			res.status(200).json(result);
 		}
