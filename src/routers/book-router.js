@@ -5,6 +5,7 @@ const { bookService } = require('../services/word-service');
 const bookRouter = Router();
 
 bookRouter.get('/', async (req, res) => {
+	console.log("router에 도착했어용");
 	const result = await bookService.findAll();
 	res.json(result);
 });

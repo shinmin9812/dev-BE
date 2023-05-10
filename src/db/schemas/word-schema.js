@@ -5,9 +5,10 @@ const { shortId } = require('../../utils/short-id');
 const WordSchema = new Schema(
 	{
 		short_id: shortId,
-		english: { type: String, required: true },
-		korean: { type: String, required: true },
+		english: { type: Array, required: true },
+		korean: { type: Array, required: true },
 		description: { type: String },
+		status: { type: String, enum: ["암기전", "암기완료"], required: true },
 		book: { type: String, default: '기본단어장' },
 	},
 	{
