@@ -25,7 +25,7 @@ class AuthService {
 
 		// 사용자 데이터베이스에 토큰 저장
 		// await User.updateUser(userEmail, { token });
-		// return token;
+		return token;
 	}
 }
 const authService = new AuthService();

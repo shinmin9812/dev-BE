@@ -21,7 +21,8 @@ userRouter.post('/', async (req, res) => {
 });
 
 userRouter.delete('/me', verifyToken, async (req, res) => {
-	const { userEmail, typedPassword } = req.user;
+	const { userEmail } = req.user;
+	const { typedPassword } = req.body;
 	await userService.deleteUser(userEmail, typedPassword);
 	res.json(`${userEmail}삭제 성공`);
 });

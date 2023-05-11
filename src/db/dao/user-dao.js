@@ -22,7 +22,7 @@ class UserDAO {
 	}
 
 	async deleteUser(userEmail) {
-		const user = await UserModel.deleteOne({ userEmail, password });
+		const user = await UserModel.deleteOne(userEmail);
 		return user;
 	}
 }
