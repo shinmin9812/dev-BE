@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const { hashedPassword } = require('../utils/hashing');
 const { userDAO } = require('../db/dao/user-dao');
+const { validateEmail, validatePassword } = require('../utils/validator');
 
 class UserService {
 	async getUserByEmail(userEmail) {
@@ -42,16 +43,17 @@ class UserService {
 			throw new Error('패스워드가 빈 값입니다.');
 		}
 
-		// 패스워드가 너무 짧은 경우
-		if (password.length < 8) {
-			throw new Error('패스워드가 너무 짧습니다. (8자 이상 필요합니다.)');
-		}
-
 		// 이미 존재하는 이메일인지 검사
 		const existingUser = await userDAO.findUserByEmail(userEmail);
 		if (existingUser) {
 			throw new Error('이미 존재하는 이메일입니다.');
 		}
+
+		//이메일 유효성 검사
+		validateEmail(userEmail);
+
+		//비밀번호 유효성 검사
+		validatePassword(password);
 
 		try {
 			const user = await userDAO.createUser({
@@ -76,10 +78,8 @@ class UserService {
 			throw new Error('패스워드가 빈 값입니다.');
 		}
 
-		// 패스워드가 너무 짧은 경우
-		if (password.length < 8) {
-			throw new Error('패스워드가 너무 짧습니다. (8자 이상 필요합니다.)');
-		}
+		//비밀번호 유효성 검사
+		validatePassword(password);
 
 		try {
 			const { modifiedCount } = await userDAO.updateUser(userEmail, {
