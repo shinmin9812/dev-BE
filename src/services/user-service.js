@@ -95,9 +95,14 @@ class UserService {
 		}
 	}
 
-	async deleteUser(userEmail) {
+	async deleteUser(userEmail, typedPassword) {
 		try {
-			const { deletedCount } = await userDAO.deleteUser(userEmail);
+			const hashedPwd = await hashedPassword(typedPassword);
+			const { deletedCount } = await userDAO.deleteUser({
+				userEmail,
+				password: hashedPwd,
+			});
+
 			if (!deletedCount) {
 				throw new Error(`이메일이 ${userEmail}인 유저가 존재하지 않습니다.`);
 			}
