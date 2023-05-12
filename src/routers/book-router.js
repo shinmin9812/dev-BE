@@ -13,7 +13,7 @@ bookRouter.get('/', verifyToken, asyncHandler(async (req, res) => {
 bookRouter.get('/me', verifyToken, asyncHandler(async (req, res, next) => {
 	const result = await bookService.findAllByUser({ ownerEmail: req.user.email });
 	if (!result) {
-		return next(new Error('No books found for this user'));  
+		return next(new Error('사용자의 단어장이 없습니다'));  
 	}
 	res.status(200).json(result);
 }));
