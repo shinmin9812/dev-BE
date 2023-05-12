@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
-const { hashedPassword } = require('../utils/hashing');
 const { userDAO } = require('../db/dao/user-dao');
+const { hashedPassword } = require('../utils/hashing');
 const {
 	validateEmail,
 	validatePassword,
@@ -76,26 +76,33 @@ class UserService {
 
 	async updateUser(userEmail, updatedInfo) {
 		const { password, nickname } = updatedInfo;
-		const hashedPwd = await hashedPassword(password);
+		let modifiedData;
 
 		if (!nickname) {
 			throw new Error('닉네임이 빈 값입니다.');
 		}
+
 		if (!password) {
-			throw new Error('패스워드가 빈 값입니다.');
-		}
+			validateNickname(nickname);
+			modifiedData = {
+				nickname,
+			};
+		} else {
+			const hashedPwd = await hashedPassword(password);
 
-		//닉네임 유효성 검사
-		validateNickname(nickname);
+			validatePassword(password);
+			validateNickname(nickname);
 
-		//비밀번호 유효성 검사
-		validatePassword(password);
-
-		try {
-			const { modifiedCount } = await userDAO.updateUser(userEmail, {
+			modifiedData = {
 				password: hashedPwd,
 				nickname,
-			});
+			};
+		}
+		try {
+			const { modifiedCount } = await userDAO.updateUser(
+				userEmail,
+				modifiedData,
+			);
 			if (!modifiedCount) {
 				throw new Error(`이메일이 ${userEmail}인 유저가 존재하지 않습니다.`);
 			}
@@ -107,21 +114,27 @@ class UserService {
 
 	async deleteUser(userEmail, typedPassword) {
 		//비밀번호 검증
-		const hashedPwd = await hashedPassword(typedPassword);
-		await this.verifyPassword(typedPassword, hashedPwd);
-
 		try {
+			const user = await userDAO.findUserByEmail(userEmail);
+			if (!user) {
+				throw new Error(`이메일이 ${userEmail}인 유저가 존재하지 않습니다.`);
+			}
+			const isValidPassword = await userService.verifyPassword(
+				typedPassword,
+				user.password,
+			);
+			if (!isValidPassword) {
+				throw new Error('비밀번호가 일치하지 않습니다.');
+			}
 			const { deletedCount } = await userDAO.deleteUser({
 				userEmail,
 			});
-
 			if (!deletedCount) {
 				throw new Error(`이메일이 ${userEmail}인 유저가 존재하지 않습니다.`);
 			}
-
 			return;
 		} catch (err) {
-			throw new Error(`유저 삭제에 실패했습니다: ${err.message}`);
+			throw new Error(`유저 삭제에 실패했습니다.`);
 		}
 	}
 
