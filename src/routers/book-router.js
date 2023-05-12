@@ -44,6 +44,7 @@ bookRouter.put('/name/:currName', async (req, res) => {
 	const { currName } = req.params;
 	console.log(currName);
 	const updatedBook = req.body;
+
 	const result = await bookService.updateOne({ name: currName }, updatedBook, {
 		new: true,
 	});
