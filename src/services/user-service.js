@@ -61,7 +61,7 @@ class UserService {
 				nickname,
 				password: hashedPwd,
 			});
-			return user;
+			return { userEmail: user.userEmail, nickname: user.nickname };
 		} catch (err) {
 			throw new Error('유저 생성에 실패했습니다.');
 		}
