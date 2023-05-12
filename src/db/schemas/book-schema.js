@@ -19,6 +19,11 @@ const BookSchema = new Schema(
 			default: 'korean',
 			required: true,
 		},
+		ownerEmail: {
+			type: String,
+			required: true,
+			match: [/\S+@\S+.\S+/, 'is invalid'],
+		}
 	},
 	{
 		collection: 'Book',
