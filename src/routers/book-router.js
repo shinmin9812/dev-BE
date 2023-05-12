@@ -1,10 +1,6 @@
 const { Router } = require('express');
 
-const {
-	WordModel,
-	BookModel,
-	BookCaseModel,
-} = require('../db/schemas/word-schema');
+const { WordModel } = require('../db/schemas/word-schema');
 
 const { bookService } = require('../services/book-service');
 const { asyncHandler } = require('../middlewares/async-handler');

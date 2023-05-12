@@ -2,19 +2,18 @@ const { WordModel } = require('../schemas/word-schema');
 
 class WordDAO {
 	/**단어장에 따라 단어찾기 */
-	async findWordsByBook(books) {
-		const words = await WordModel.find({ book: books });
+	async findWordsByBook(userEmail, books) {
+		const words = await WordModel.find({ ownerEmail: userEmail, book: books });
 		return words;
 	}
 
-	async findOneById({ short_id: id }) {
-		// console.log('DAO : ' + { short_id: id })
-		const word = await WordModel.findOne({ short_id: id });
+	async findOneById(clue) {
+		const word = await WordModel.findOne(clue);
 		return word;
 	}
 
-	async findAll() {
-		const word = await WordModel.find({});
+	async findAll(userEmail) {
+		const word = await WordModel.find({ ownerEmail: userEmail });
 		return word;
 	}
 
@@ -33,12 +32,14 @@ class WordDAO {
 	}
 
 	async updateOne(find, update) {
-		const word = await WordModel.findOneAndUpdate(find, update);
+		const word = await WordModel.findOneAndUpdate(find, update, {
+			new: true
+		});
 		return word;
 	}
 
-	async deleteOne(params) {
-		const word = await WordModel.findOneAndDelete(params);
+	async deleteOne(clue) {
+		const word = await WordModel.findOneAndDelete(clue);
 		return word;
 	}
 
