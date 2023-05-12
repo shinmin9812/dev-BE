@@ -7,7 +7,6 @@ const verifyToken = require('../middlewares/auth-handler');
 
 const wordRouter = Router();
 
-/**클리어 */
 wordRouter.get(
 	'/',
 	verifyToken,
@@ -27,7 +26,6 @@ wordRouter.get(
 	}),
 );
 
-/**클리어 */
 wordRouter.get(
 	'/:id',
 	verifyToken,
@@ -40,7 +38,6 @@ wordRouter.get(
 	}),
 );
 
-/**클리어 */
 wordRouter.post(
 	'/',
 	verifyToken,
@@ -64,7 +61,6 @@ wordRouter.post(
 		}
 	}),
 );
-/**클리어 */
 wordRouter.delete(
 	'/:id',
 	verifyToken,
@@ -77,7 +73,6 @@ wordRouter.delete(
 	}),
 );
 
-/**클리어 */
 wordRouter.put(
 	'/:id',
 	verifyToken,
