@@ -10,7 +10,7 @@ class UserService {
 			if (!user) {
 				throw new Error(`이메일이 ${userEmail}인 유저가 존재하지 않습니다.`);
 			}
-			return user;
+			return { userEmail, nickname: user.nickname };
 		} catch (err) {
 			throw new Error('유저 조회에 실패했습니다.');
 		}
