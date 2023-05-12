@@ -50,7 +50,9 @@ class UserService {
 		// 이미 존재하는 이메일인지 검사
 		const existingUser = await userDAO.findUserByEmail(userEmail);
 		if (existingUser) {
-			throw new Error('이미 존재하는 이메일입니다.');
+			const error = new Error('이미 존재하는 이메일입니다.');
+			error.status = 409;
+			throw error;
 		}
 
 		//이메일 유효성 검사
