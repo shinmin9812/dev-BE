@@ -18,12 +18,8 @@ class WordDAO {
 	}
 
 	async createOne(params) {
-		const { word, meanings, book } = params;
-		// console.log(params.word)
-		const hi = await WordModel.create(
-			// { word: params.word }, { meanings: params.meanings }, { book: params.book }
-		);
-		return hi;
+		const word = await WordModel.create(params);
+		return word;
 	}
 
 	async createMany(params) {
@@ -33,7 +29,7 @@ class WordDAO {
 
 	async updateOne(find, update) {
 		const word = await WordModel.findOneAndUpdate(find, update, {
-			new: true
+			new: true,
 		});
 		return word;
 	}

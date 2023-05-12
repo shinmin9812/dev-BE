@@ -7,7 +7,6 @@ const verifyToken = require('../middlewares/auth-handler');
 
 const wordRouter = Router();
 
-
 /**클리어 */
 wordRouter.get(
 	'/',
@@ -15,7 +14,10 @@ wordRouter.get(
 	asyncHandler(async (req, res) => {
 		const { userEmail } = req.user;
 		if (Object.keys(req.query).length > 0) {
-			const wordsByBook = await wordService.findWordsByBook(userEmail, req.query.books);
+			const wordsByBook = await wordService.findWordsByBook(
+				userEmail,
+				req.query.books,
+			);
 			res.status(200).json(wordsByBook);
 		} else {
 			/**db에 있는 모든 단어 찾기 */
@@ -32,7 +34,7 @@ wordRouter.get(
 	asyncHandler(async (req, res) => {
 		const { userEmail } = req.user;
 		const { id } = req.params;
-		const clue = { ownerEmail: userEmail, short_id: id }
+		const clue = { ownerEmail: userEmail, short_id: id };
 		const result = await wordService.findOneById(clue);
 		res.status(200).json(result);
 	}),
@@ -44,18 +46,19 @@ wordRouter.post(
 	verifyToken,
 	asyncHandler(async (req, res) => {
 		const { userEmail } = req.user;
+		/**배열로 여러개 생성하려한다면 */
 		if (Array.isArray(req.body)) {
 			const newWordsArray = req.body;
-			newWordsArray.forEach((word) => { word.ownerEmail = userEmail })
-			console.log(newWordsArray);
+			newWordsArray.forEach(word => {
+				word.ownerEmail = userEmail;
+			});
 			const result = await wordService.createMany(newWordsArray);
-			// const result = await WordModel.insertMany(newWordsArray);
-			console.log(result)
-			// res.status(200).json(result);
+			res.status(200).json(result);
 		} else {
+			/**하나만 생성하려한다면 */
 			const newWord = req.body;
 			newWord.ownerEmail = userEmail;
-			const result = await WordModel.create(newWord);
+			const result = await wordService.createOne(newWord);
 			console.log(result);
 			res.status(200).json(result);
 		}
@@ -68,9 +71,8 @@ wordRouter.delete(
 	asyncHandler(async (req, res) => {
 		const { userEmail } = req.user;
 		const { id } = req.params;
-		const clue = { ownerEmail: userEmail, short_id: id }
+		const clue = { ownerEmail: userEmail, short_id: id };
 		const result = await wordService.deleteOne(clue);
-		console.log(result);
 		res.status(204).json('삭제 성공');
 	}),
 );
@@ -82,9 +84,8 @@ wordRouter.put(
 	asyncHandler(async (req, res) => {
 		const { userEmail } = req.user;
 		const { id } = req.params;
-		const clue = { short_id: id, ownerEmail: userEmail }
+		const clue = { short_id: id, ownerEmail: userEmail };
 		const updatedWord = { ...req.body };
-		// console.log(updatedWord)
 		const result = await wordService.updateOne(clue, updatedWord);
 		res.status(200).json(result);
 	}),

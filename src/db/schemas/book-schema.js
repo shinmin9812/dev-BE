@@ -23,7 +23,7 @@ const BookSchema = new Schema(
 			type: String,
 			required: true,
 			match: [/\S+@\S+.\S+/, 'is invalid'],
-		}
+		},
 	},
 	{
 		collection: 'Book',
