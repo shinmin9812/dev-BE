@@ -26,4 +26,24 @@ function validatePassword(password) {
 	return true;
 }
 
-module.exports = { validateEmail, validatePassword };
+function validateNickname(nickname) {
+	const regex = /^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣]+$/;
+	if (nickname.length > 10) {
+		throw new Error('닉네임은 10자 이하여야 합니다.');
+	}
+
+	if (nickname.includes(' ')) {
+		throw new Error('닉네임에는 공백을 사용할 수 없습니다.');
+	}
+
+	if (!regex.test(nickname)) {
+		throw new Error(
+			'닉네임은 알파벳 대소문자, 숫자, 한글만 사용할 수 있습니다.',
+		);
+	}
+
+	// 모든 조건을 만족하면 유효한 닉네임입니다.
+	return true;
+}
+
+module.exports = { validateEmail, validatePassword, validateNickname };

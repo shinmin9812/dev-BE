@@ -1,7 +1,11 @@
 const bcrypt = require('bcrypt');
 const { hashedPassword } = require('../utils/hashing');
 const { userDAO } = require('../db/dao/user-dao');
-const { validateEmail, validatePassword } = require('../utils/validator');
+const {
+	validateEmail,
+	validatePassword,
+	validateNickname,
+} = require('../utils/validator');
 
 class UserService {
 	async getUserByEmail(userEmail) {
@@ -52,6 +56,9 @@ class UserService {
 		//이메일 유효성 검사
 		validateEmail(userEmail);
 
+		//닉네임 유효성 검사
+		validateNickname(nickname);
+
 		//비밀번호 유효성 검사
 		validatePassword(password);
 
@@ -77,6 +84,9 @@ class UserService {
 		if (!password) {
 			throw new Error('패스워드가 빈 값입니다.');
 		}
+
+		//닉네임 유효성 검사
+		validateNickname(nickname);
 
 		//비밀번호 유효성 검사
 		validatePassword(password);
