@@ -45,17 +45,16 @@ bookRouter.put('/name/:currName', async (req, res) => {
 	const { currName } = req.params;
 	console.log(currName);
 	const updatedBook = req.body;
-	const result = await BookModel.findOneAndUpdate(
-		{ name: currName },
-		updatedBook,
-		{ new: true },
-	);
-
 	// bookRouter.delete('/:id', async (req, res) => {
 	// 	const { id } = req.params;
 	// 	const result = await bookService.deleteOne({ short_id: id });
 	// 	console.log(result);
 	// 	res.json('삭제 성공');
+
+	const result = await bookService.updateOne({ name: currName }, updatedBook, {
+		new: true,
+	});
+	res.json(result);
 });
 
 module.exports = { bookRouter };

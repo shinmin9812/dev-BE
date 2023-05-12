@@ -10,8 +10,7 @@ function validatePassword(password) {
 		throw new Error('비밀번호는 8자 이상으로 작성해 주세요!');
 	}
 
-	const regex =
-		/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[~?!@#$%^&*_-]).{8,}$/;
+	const regex = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/;
 	const spaceRegex = /\s/g;
 
 	if (spaceRegex.test(password)) {
