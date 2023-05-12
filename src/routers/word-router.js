@@ -3,11 +3,13 @@ const { WordModel } = require('../db/schemas/word-schema');
 const { wordDAO } = require('../db/dao/word-dao');
 const { wordService } = require('../services/word-service');
 const { asyncHandler } = require('../middlewares/async-handler');
+const verifyToken = require('../middlewares/auth-handler');
 
 const wordRouter = Router();
 
 wordRouter.get(
 	'/',
+	verifyToken,
 	asyncHandler(async (req, res) => {
 		/**단어장에 속해 있는 단어 찾기 */
 		if (Object.keys(req.query).length > 0) {
@@ -23,6 +25,7 @@ wordRouter.get(
 
 wordRouter.get(
 	'/:id',
+	verifyToken,
 	asyncHandler(async (req, res) => {
 		console.log(req.params.id);
 		const { id } = req.params;
@@ -33,6 +36,7 @@ wordRouter.get(
 
 wordRouter.post(
 	'/',
+	verifyToken,
 	asyncHandler(async (req, res) => {
 		const newWord = req.body;
 		console.log(newWord);
@@ -44,6 +48,7 @@ wordRouter.post(
 
 wordRouter.delete(
 	'/:id',
+	verifyToken,
 	asyncHandler(async (req, res) => {
 		const { id } = req.params;
 		const result = await wordService.deleteOne({ short_id: id });
@@ -54,6 +59,7 @@ wordRouter.delete(
 
 wordRouter.put(
 	'/:id',
+	verifyToken,
 	asyncHandler(async (req, res) => {
 		const { id } = req.params;
 		const updatedWord = req.body.word;
