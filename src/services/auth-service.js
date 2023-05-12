@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
 const { userService } = require('../services/user-service');
+const { userDAO } = require('../db/dao/user-dao');
 
 class AuthService {
 	async login(userEmail, password) {
 		// 이메일로 사용자 조회
-		const user = await userService.getUserByEmail(userEmail);
+		const user = await userDAO.findUserByEmail(userEmail);
 		if (!user) {
 			throw new Error('존재하지 않는 사용자입니다.');
 		}

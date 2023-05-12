@@ -14,6 +14,11 @@ userRouter.get('/me', verifyToken, async (req, res) => {
 	res.json(user);
 });
 
+userRouter.get('/me/email', verifyToken, async (req, res) => {
+	const { userEmail } = req.user;
+	res.json(userEmail);
+});
+
 userRouter.post('/', async (req, res) => {
 	const userInfo = req.body;
 	const user = await userService.createUser(userInfo);
