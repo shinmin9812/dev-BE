@@ -5,7 +5,7 @@ const {
 	BookModel,
 	BookCaseModel,
 } = require('../db/schemas/word-schema');
-const { bookService } = require('../services/word-service');
+const { bookService } = require('../services/book-service');
 const bookRouter = Router();
 
 bookRouter.get('/', async (req, res) => {

@@ -19,14 +19,12 @@ class WordDAO {
 	}
 
 	async createOne(params) {
-		const { english, korean, pronounce, description } = params;
-		const word = await WordModel.create({
-			english,
-			korean,
-			pronounce,
-			description,
-		});
-		return word;
+		const { word, meanings, book } = params;
+		// console.log(params.word)
+		const hi = await WordModel.create(
+			// { word: params.word }, { meanings: params.meanings }, { book: params.book }
+		);
+		return hi;
 	}
 
 	async createMany(params) {

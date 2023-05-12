@@ -1,4 +1,6 @@
 const { Router } = require('express');
+const { WordModel } = require('../db/schemas/word-schema');
+const { wordDAO } = require('../db/dao/word-dao');
 const { wordService } = require('../services/word-service');
 const { asyncHandler } = require('../middlewares/async-handler');
 
@@ -33,10 +35,9 @@ wordRouter.post(
 	'/',
 	asyncHandler(async (req, res) => {
 		const newWord = req.body;
-		/**word form 안에 사용자가
-		 * english, korean, pronounce, description 을 담아보내야합니다. */
-		const result = await wordService.createOne(newWord);
-		console.log(result);
+		console.log(newWord);
+		const result = await WordModel.insertMany(newWord);
+		// 스키마 변경 후 에러 발생, 해결 중
 		res.status(200).json(result);
 	}),
 );
