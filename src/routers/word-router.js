@@ -79,6 +79,7 @@ wordRouter.put(
 		const { id } = req.params;
 		const clue = { short_id: id, ownerEmail: userEmail };
 		const updatedWord = { ...req.body };
+		// console.log('router', clue);
 		const result = await wordService.updateOne(clue, updatedWord);
 		res.status(200).json(result);
 	}),
