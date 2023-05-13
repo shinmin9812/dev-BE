@@ -34,9 +34,7 @@ class UserService {
 
 	async createUser(userInfo) {
 		const { userEmail, nickname, password } = userInfo;
-		const hashedPwd = await hashedPassword(password);
 
-		// 이메일, 닉네임, 패스워드 중 하나라도 빈 값인 경우
 		if (!userEmail) {
 			throw new Error('이메일이 빈 값입니다.');
 		}
@@ -47,7 +45,6 @@ class UserService {
 			throw new Error('패스워드가 빈 값입니다.');
 		}
 
-		// 이미 존재하는 이메일인지 검사
 		const existingUser = await userDAO.findUserByEmail(userEmail);
 		if (existingUser) {
 			const error = new Error('이미 존재하는 이메일입니다.');
@@ -55,16 +52,12 @@ class UserService {
 			throw error;
 		}
 
-		//이메일 유효성 검사
-		validateEmail(userEmail);
-
-		//닉네임 유효성 검사
-		validateNickname(nickname);
-
-		//비밀번호 유효성 검사
-		validatePassword(password);
-
 		try {
+			validateEmail(userEmail);
+			validateNickname(nickname);
+			validatePassword(password);
+
+			const hashedPwd = await hashedPassword(password);
 			const user = await userDAO.createUser({
 				userEmail,
 				nickname,
@@ -72,7 +65,7 @@ class UserService {
 			});
 			return { userEmail: user.userEmail, nickname: user.nickname };
 		} catch (err) {
-			throw new Error('유저 생성에 실패했습니다.');
+			throw new Error(err);
 		}
 	}
 
@@ -108,9 +101,8 @@ class UserService {
 			if (!modifiedCount) {
 				throw new Error(`이메일이 ${userEmail}인 유저가 존재하지 않습니다.`);
 			}
-			return;
 		} catch (err) {
-			throw new Error(`유저 업데이트에 실패했습니다.: ${err.message}`);
+			throw new Error(err);
 		}
 	}
 
@@ -144,7 +136,7 @@ class UserService {
 		try {
 			return await bcrypt.compare(userPassword, hashedPassword);
 		} catch (err) {
-			throw new Error('비밀번호 검증에 실패했습니다.');
+			throw new Error(err);
 		}
 	}
 }
