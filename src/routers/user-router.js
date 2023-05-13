@@ -29,14 +29,14 @@ userRouter.delete('/me', verifyToken, async (req, res) => {
 	const { userEmail } = req.user;
 	const { typedPassword } = req.body;
 	await userService.deleteUser(userEmail, typedPassword);
-	res.json(`${userEmail}삭제 성공`);
+	res.json('success');
 });
 
 userRouter.put('/me', verifyToken, async (req, res) => {
 	const { userEmail } = req.user;
 	const userInfo = req.body;
 	await userService.updateUser(userEmail, userInfo);
-	res.json(`${userEmail}수정 성공`);
+	res.json('success');
 });
 
 module.exports = { userRouter };
