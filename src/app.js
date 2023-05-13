@@ -5,6 +5,7 @@ require('dotenv').config();
 const app = express();
 
 const { wordRouter } = require('./routers/word-router');
+const { wordMeaningRouter } = require('./routers/wordMeaning-router');
 const { bookRouter } = require('./routers/book-router');
 const { userRouter } = require('./routers/user-router');
 const { authRouter } = require('./routers/auth-router');
@@ -42,6 +43,7 @@ app.get('/', async (req, res) => {
 	res.send('api 페이지 접속 성공');
 });
 app.use('/api/words', wordRouter);
+app.use('/api/meanings', wordMeaningRouter);
 app.use('/api/books', bookRouter);
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
