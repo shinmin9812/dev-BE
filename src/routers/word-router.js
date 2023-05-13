@@ -1,6 +1,4 @@
 const { Router } = require('express');
-const { WordModel } = require('../db/schemas/word-schema');
-const { wordDAO } = require('../db/dao/word-dao');
 const { wordService } = require('../services/word-service');
 const { asyncHandler } = require('../middlewares/async-handler');
 const verifyToken = require('../middlewares/auth-handler');
