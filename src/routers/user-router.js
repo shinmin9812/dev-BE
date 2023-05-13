@@ -6,7 +6,7 @@ const userRouter = Router();
 userRouter.get('/', async (req, res, next) => {
 	try {
 		const users = await userService.getAllUsers();
-		res.json(users);
+		res.status(200).json(users);
 	} catch (err) {
 		next(err);
 	}
@@ -16,7 +16,7 @@ userRouter.get('/me', verifyToken, async (req, res, next) => {
 	try {
 		const { userEmail } = req.user;
 		const user = await userService.getUserByEmail(userEmail);
-		res.json(user);
+		res.status(200).json(user);
 	} catch (err) {
 		next(err);
 	}
@@ -25,7 +25,7 @@ userRouter.get('/me', verifyToken, async (req, res, next) => {
 userRouter.get('/me/email', verifyToken, async (req, res, next) => {
 	try {
 		const { userEmail } = req.user;
-		res.json(userEmail);
+		res.status(200).json(userEmail);
 	} catch (err) {
 		next(err);
 	}
@@ -35,7 +35,7 @@ userRouter.post('/', async (req, res, next) => {
 	try {
 		const userInfo = req.body;
 		const user = await userService.createUser(userInfo);
-		res.json(user);
+		res.status(200).json(user);
 	} catch (err) {
 		next(err);
 	}
@@ -46,7 +46,7 @@ userRouter.delete('/me', verifyToken, async (req, res, next) => {
 		const { userEmail } = req.user;
 		const { typedPassword } = req.body;
 		await userService.deleteUser(userEmail, typedPassword);
-		res.json('success');
+		res.status(204).json('success');
 	} catch (err) {
 		next(err);
 	}
@@ -57,7 +57,7 @@ userRouter.put('/me', verifyToken, async (req, res, next) => {
 		const { userEmail } = req.user;
 		const userInfo = req.body;
 		await userService.updateUser(userEmail, userInfo);
-		res.json('success');
+		res.status(200).json('success');
 	} catch (err) {
 		next(err);
 	}
