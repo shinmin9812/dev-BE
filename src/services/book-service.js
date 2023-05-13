@@ -6,8 +6,8 @@ class BookService {
         return book;
     }
 
-    async findAllByUser({ ownerEmail }) {
-        const books = await bookDAO.findAllByUser({ ownerEmail });
+    async findAllByUser({ownerEmail}) {
+        const books = await bookDAO.findAllByUser(ownerEmail);
         return books;
     }
 

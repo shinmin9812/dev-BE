@@ -11,7 +11,8 @@ bookRouter.get('/', verifyToken, asyncHandler(async (req, res) => {
 }));
 
 bookRouter.get('/me', verifyToken, asyncHandler(async (req, res, next) => {
-	const result = await bookService.findAllByUser({ ownerEmail: req.user.email });
+	const {userEmail} = req.user
+	const result = await bookService.findAllByUser({ ownerEmail: userEmail });
 	if (!result) {
 		return next(new Error('사용자의 단어장이 없습니다'));  
 	}
