@@ -18,9 +18,11 @@ bookRouter.get(
 	'/:id',
 	verifyToken,
 	asyncHandler(async (req, res) => {
-		const result = await bookService.findAllByUser({
-			ownerEmail: req.user.userEmail, short_id: req.params.id,
-		});
+		console.log(req.user);
+		const { userEmail } = req.user;
+		const { id } = req.params;
+		const result = await bookService.findOneByUserAndId(userEmail, id);
+		console.log(result);
 		res.status(200).json(result);
 	}),
 );
@@ -54,7 +56,7 @@ bookRouter.delete(
 			ownerEmail: req.user.userEmail,
 			short_id: req.params.id,
 		});
-		res.status(200).json({ message: '단어장이 삭제되었습니다' });
+		res.status(204).json({ message: '단어장이 삭제되었습니다' });
 	}),
 );
 
