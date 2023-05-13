@@ -1,7 +1,4 @@
 const { Router } = require('express');
-
-const { WordModel } = require('../db/schemas/word-schema');
-
 const { bookService } = require('../services/book-service');
 const { asyncHandler } = require('../middlewares/async-handler');
 const verifyToken = require('../middlewares/auth-handler');
@@ -18,32 +15,33 @@ bookRouter.get(
 );
 
 bookRouter.get(
-	'/me',
+	'/',
 	verifyToken,
-	asyncHandler(async (req, res, next) => {
+	asyncHandler(async (req, res) => {
 		const result = await bookService.findAllByUser({
-			ownerEmail: req.user.email,
-		});
-		if (!result) {
-			return next(new Error('사용자의 단어장이 없습니다'));
+			ownerEmail: req.user.userEmail,
+		});{
+		// 	return next(new Error('사용자의 단어장이 없습니다'));
 		}
 		res.status(200).json(result);
 	}),
 );
 
 bookRouter.post(
-	'/me',
+	'/',
 	verifyToken,
-	asyncHandler(async (req, res, next) => {
+	asyncHandler(async (req, res) => {
 		const newBook = req.body;
-		newBook.ownerEmail = req.user.email;
+		newBook.ownerEmail = req.user.userEmail;
 		if (
 			!newBook.name ||
 			!newBook.start_lang ||
 			!newBook.end_lang ||
 			!newBook.ownerEmail
 		) {
-			return next(new Error('Missing required fields'));
+			const err = new Error('안녕하세여');
+			err.status = 400;
+			throw err;
 		}
 		const result = await bookService.createOne(newBook);
 		res.status(201).json(result);
@@ -53,16 +51,11 @@ bookRouter.post(
 bookRouter.delete(
 	'/me/:id',
 	verifyToken,
-	asyncHandler(async (req, res, next) => {
+	asyncHandler(async (req, res) => {
 		const result = await bookService.deleteOne({
 			ownerEmail: req.user.email,
 			short_id: req.params.id,
 		});
-		if (!result) {
-			return next(
-				new Error('No book found for this user with the provided id'),
-			);
-		}
 		res.status(200).json({ message: '단어장이 삭제되었습니다' });
 	}),
 );
@@ -70,17 +63,12 @@ bookRouter.delete(
 bookRouter.put(
 	'/me/:id',
 	verifyToken,
-	asyncHandler(async (req, res, next) => {
+	asyncHandler(async (req, res) => {
 		const updatedBook = req.body;
 		const result = await bookService.updateOne(
 			{ ownerEmail: req.user.email, short_id: req.params.id },
 			updatedBook,
 		);
-		if (!result) {
-			return next(
-				new Error('No book found for this user with the provided id'),
-			);
-		}
 		res.status(200).json(result);
 	}),
 );
