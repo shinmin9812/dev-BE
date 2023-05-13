@@ -36,7 +36,7 @@ class WordService {
 	async createOne(params) {
 		/** 없는 단어장을 기재하여 추가하려한다면 에러 반환 */
 		const existingBook = await BookModel.find({
-			name: params.book,
+			bookId: params.book,
 			ownerEmail: params.ownerEmail,
 		});
 		if (!existingBook) {

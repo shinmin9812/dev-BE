@@ -9,8 +9,7 @@ const WordSchema = new Schema(
 		meanings: { type: Array, required: true },
 		status: { type: Number, enum: [0, 1, 2], required: false, default: 0 },
 		/**0:미분류, 1:암기완료, 2:헷갈림 */
-		book: { type: String, default: 'test' },
-		bookId: { type: String, default: 'test' },
+		bookId: { type: String, required: true },
 		ownerEmail: { type: String, required: true },
 	},
 	{
