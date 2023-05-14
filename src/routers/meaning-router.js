@@ -10,7 +10,7 @@ meaningRouter.get(
 		const { word } = req.params;
 		const { lang } = req.body;
 		const meanings = await meaningService.getWordMeanings(lang, word);
-		res.json(meanings);
+		res.status(200).json(meanings);
 	}),
 );
 

@@ -4,57 +4,66 @@ const cheerio = require('cheerio');
 //wordMeaningService
 class MeaningService {
 	async getWordMeanings(lang, word) {
+		if (!lang) {
+			const error = new Error('언어가 입력되지 않았습니다.');
+			error.status = 400;
+			throw error;
+		}
+
+		if (!['en', 'ko'].includes(lang)) {
+			const error = new Error('올바르지 않은 언어입니다.');
+			error.status = 400;
+			throw error;
+		}
+
 		if (lang === 'en') {
-			// 영=> 한
-			// 검색할 단어
-			const enWord = word;
-			// 다음 사전 검색 결과 페이지에서 크롤링
-			try {
-				const response = await axios.get(
-					`https://dic.daum.net/search.do?q=${enWord}`,
-				);
-				const html = response.data;
-				const $ = cheerio.load(html);
+			const response = await axios.get(
+				`https://dic.daum.net/search.do?q=${word}`,
+			);
 
-				// 검색 결과에서 단어 뜻 부분 추출
-				const meanings = $('.cleanword_type.kuek_type > .list_search > li')
-					.map((index, element) => {
-						// 뜻 내용
-						const desc = $(element).find('.txt_search').text().trim();
-						return `${desc}`;
-					})
-					.get();
-				return meanings;
-			} catch (error) {
-				console.log(error);
-				throw new Error('Error occurred while fetching the meanings');
+			const html = response.data;
+			const $ = cheerio.load(html);
+
+			// 검색 결과에서 단어 뜻 부분 추출
+			const meanings = $('.cleanword_type.kuek_type > .list_search > li')
+				.map((index, element) => {
+					// 뜻 내용
+					const desc = $(element).find('.txt_search').text().trim();
+					return `${desc}`;
+				})
+				.get();
+
+			if (meanings.length === 0) {
+				const error = new Error('해당 단어의 뜻을 찾을 수 없습니다.');
+				error.status = 204;
+				throw error;
 			}
-		} else if (lang === 'ko') {
-			// 한=> 영
-			// 검색할 단어
-			const koWord = word;
 
-			// 다음 사전 검색 결과 페이지에서 크롤링
-			try {
-				const response = await axios.get(
-					`https://dic.daum.net/search.do?q=${koWord}&dic=eng&search_first=Y`,
-				);
-				const html = response.data;
-				const $ = cheerio.load(html);
+			return meanings;
+		}
+		if (lang == 'ko') {
+			const response = await axios.get(
+				`https://dic.daum.net/search.do?q=${word}&dic=eng&search_first=Y`,
+			);
+			const html = response.data;
+			const $ = cheerio.load(html);
 
-				// 검색 결과에서 단어 뜻 부분 추출
-				const meanings = $('.cleanword_type.kuke_type > .list_search > li')
-					.map((index, element) => {
-						// 뜻 내용
-						const desc = $(element).find('.txt_search').text().trim();
-						return `${desc}`;
-					})
-					.get();
-				return meanings;
-			} catch (error) {
-				console.log(error);
-				throw new Error('Error occurred while fetching the meanings');
+			// 검색 결과에서 단어 뜻 부분 추출
+			const meanings = $('.cleanword_type.kuke_type > .list_search > li')
+				.map((index, element) => {
+					// 뜻 내용
+					const desc = $(element).find('.txt_search').text().trim();
+					return `${desc}`;
+				})
+				.get();
+
+			if (meanings.length === 0) {
+				const error = new Error('해당 단어의 뜻을 찾을 수 없습니다.');
+				error.status = 204;
+				throw error;
 			}
+
+			return meanings;
 		}
 	}
 }
