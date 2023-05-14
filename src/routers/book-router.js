@@ -69,8 +69,8 @@ bookRouter.put(
 			{ ownerEmail: req.user.userEmail, short_id: req.params.id },
 			updatedBook,
 		);
-		console.log(req.body)
-		console.log(result)
+		console.log(req.body);
+		console.log(result);
 
 		res.status(200).json(result);
 	}),
