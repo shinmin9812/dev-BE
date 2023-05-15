@@ -22,7 +22,6 @@ const BookSchema = new Schema(
 		ownerEmail: {
 			type: String,
 			required: true,
-			// match: [/\S+@\S+.\S+/, 'is invalid'],
 		},
 	},
 	{
