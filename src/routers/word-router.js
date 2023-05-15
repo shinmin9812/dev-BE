@@ -14,7 +14,7 @@ wordRouter.get(
 		if (Object.keys(req.query).length > 0) {
 			const wordsByBook = await wordService.findWordsByBook(
 				userEmail,
-				req.query.books,
+				req.query.bookId,
 			);
 			res.status(200).json(wordsByBook);
 		} else {
@@ -24,6 +24,12 @@ wordRouter.get(
 		}
 	}),
 );
+
+
+wordRouter.get('/sample', asyncHandler(async (req, res) => {
+	const result = await wordService.findSampleWords();
+	res.status(200).json(result);
+}));
 
 wordRouter.get(
 	'/status/:status',

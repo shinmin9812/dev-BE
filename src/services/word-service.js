@@ -2,8 +2,9 @@ const { wordDAO } = require('../db/dao/word-dao');
 const { BookModel } = require('../db/schemas/book-schema');
 
 class WordService {
-	async findWordsByBook(userEmail, books) {
-		const words = await wordDAO.findWordsByBook(userEmail, books);
+	async findWordsByBook(userEmail, book) {
+		console.log(book)
+		const words = await wordDAO.findWordsByBook(userEmail, book);
 		if (!words) {
 			const err = new Error('단어를 찾을 수 없습니다.');
 			err.status = 404;
@@ -22,6 +23,19 @@ class WordService {
 			throw err;
 		}
 		return word;
+	}
+
+	async findSampleWords() {
+		const sampleBook = await BookModel.findOne({
+			name: '샘플단어장',
+		});
+		const words = await wordDAO.findSampleWords(sampleBook.short_id);
+		if (!words) {
+			const err = new Error('단어를 찾을 수 없습니다.');
+			err.status = 404;
+			throw err;
+		}
+		return words;
 	}
 
 	async findAllWordsOfThisUser(userEmail) {

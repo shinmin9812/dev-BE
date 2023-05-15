@@ -2,14 +2,21 @@ const { WordModel } = require('../schemas/word-schema');
 
 class WordDAO {
 	/**단어장에 따라 단어찾기 */
-	async findWordsByBook(userEmail, books) {
-		const words = await WordModel.find({ ownerEmail: userEmail, book: books });
+	async findWordsByBook(userEmail, bookId) {
+		const words = await WordModel.find({ ownerEmail: userEmail, bookId: bookId });
+		console.log(words)
 		return words;
 	}
 
 	async findOneById(clue) {
 		const word = await WordModel.findOne(clue);
 		return word;
+	}
+
+	async findSampleWords(bookId) {
+		const words = await WordModel.find({ bookId: bookId });
+		console.log(bookId)
+		return words;
 	}
 
 	async findAll(userEmail, status) {
