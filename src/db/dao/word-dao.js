@@ -20,6 +20,7 @@ class WordDAO {
 	}
 
 	async createOne(params) {
+		console.log(params);
 		const word = await WordModel.create(params);
 		return word;
 	}
