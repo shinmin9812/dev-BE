@@ -12,7 +12,7 @@ const { authRouter } = require('./routers/auth-router');
 const { searchRouter } = require('./routers/search-router');
 const { errorHandler } = require('./middlewares/error-handler');
 
-const DB_URL = process.env.DB_URL || 'MongoDB 서버 주소가 설정되지 않았습니다.';
+const DB_URL = process.env.MONGODB_URL || 'MongoDB 서버 주소가 설정되지 않았습니다.';
 
 mongoose.set('strictQuery', false);
 mongoose.connect(DB_URL, {
