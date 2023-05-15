@@ -11,10 +11,11 @@ class WordService {
 		}
 		return words;
 	}
+	//  async findWordsByBook(userEmail, bookId) {
+	//           const words = await wordDAO.findWordsByBook(userEmail, bookId);
 
 	async findOneById(clue) {
 		const word = await wordDAO.findOneById(clue);
-		console.log(clue);
 		if (!word) {
 			const err = new Error('단어를 찾을 수 없습니다.');
 			err.status = 404;

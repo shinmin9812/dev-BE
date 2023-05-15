@@ -11,9 +11,12 @@ searchRouter.get(
 	verifyToken,
 	asyncHandler(async (req, res) => {
 		const { userEmail } = req.user;
-		const result = await WordModel.find({ ownerEmail: userEmail, word: req.query.word });
+		const result = await WordModel.find({
+			ownerEmail: userEmail,
+			word: req.query.word,
+		});
 		res.status(200).json(result);
-	})
+	}),
 );
 
 searchRouter.get(
@@ -21,10 +24,12 @@ searchRouter.get(
 	verifyToken,
 	asyncHandler(async (req, res) => {
 		const { userEmail } = req.user;
-		const result = await BookModel.find({ ownerEmail: userEmail, name: req.query.name });
+		const result = await BookModel.find({
+			ownerEmail: userEmail,
+			name: req.query.name,
+		});
 		res.status(200).json(result);
-	})
+	}),
 );
-
 
 module.exports = { searchRouter };

@@ -54,7 +54,6 @@ wordRouter.post(
 			const newWord = req.body;
 			newWord.ownerEmail = userEmail;
 			const result = await wordService.createOne(newWord);
-			console.log(result);
 			res.status(200).json(result);
 		}
 	}),
@@ -80,12 +79,10 @@ wordRouter.put(
 		const { id } = req.params;
 		const clue = { short_id: id, ownerEmail: userEmail };
 		const updatedWord = { ...req.body };
-		// console.log('router', clue);
 		const result = await wordService.updateOne(clue, updatedWord);
 		res.status(200).json(result);
 	}),
 );
-
 
 /**관리자가 한번에 샘플 단어장 생성시 사용 */
 wordRouter.post(
@@ -137,13 +134,9 @@ wordRouter.post(
 			newWord.ownerEmail = userEmail;
 			newWord.meanings = meanings;
 			const result = await wordService.createOne(newWord);
-			console.log(result);
 			res.status(200).json(result);
 		}
 	}),
 );
-
-
-
 
 module.exports = { wordRouter };
