@@ -12,9 +12,13 @@ class WordDAO {
 		return word;
 	}
 
-	async findAll(userEmail) {
-		const word = await WordModel.find({ ownerEmail: userEmail });
-		return word;
+	async findAll(userEmail, status) {
+		const query = { ownerEmail: userEmail };
+		if (status) {
+			query.status = status;
+		}
+		const words = await WordModel.find(query);
+		return words;
 	}
 
 	async createOne(params) {

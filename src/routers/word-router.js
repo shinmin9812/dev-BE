@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const { wordModel, WordModel } = require('../db/schemas/word-schema');
 const { wordService } = require('../services/word-service');
 const { asyncHandler } = require('../middlewares/async-handler');
 const verifyToken = require('../middlewares/auth-handler');
@@ -21,6 +22,17 @@ wordRouter.get(
 			const result = await wordService.findAllWordsOfThisUser(userEmail);
 			res.status(200).json(result);
 		}
+	}),
+);
+
+wordRouter.get(
+	'/status/:status',
+	verifyToken,
+	asyncHandler(async (req, res) => {
+		const { userEmail } = req.user;
+		const { status } = req.params;
+		const result = await wordService.findWordsByStatus(userEmail, status);
+		res.status(200).json(result);
 	}),
 );
 
@@ -138,5 +150,9 @@ wordRouter.post(
 		}
 	}),
 );
+
+
+
+
 
 module.exports = { wordRouter };

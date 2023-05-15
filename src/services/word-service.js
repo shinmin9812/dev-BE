@@ -34,6 +34,16 @@ class WordService {
 		return words;
 	}
 
+	async findWordsByStatus(userEmail, status) {
+		const words = await wordDAO.findAll(userEmail, status);
+		if (!words) {
+			const err = new Error('단어들을 찾을 수 없습니다.');
+			err.status = 404;
+			throw err;
+		}
+		return words;
+	}
+
 	async createOne(params) {
 		/** 없는 단어장을 기재하여 추가하려한다면 에러 반환 */
 		const existingBook = await BookModel.find({
