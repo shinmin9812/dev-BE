@@ -39,7 +39,7 @@ bookRouter.post(
 			!newBook.end_lang ||
 			!newBook.ownerEmail
 		) {
-			const err = new Error('안녕하세여');
+			const err = new Error('단어장을 만들지 못했습니다');
 			err.status = 400;
 			throw err;
 		}
