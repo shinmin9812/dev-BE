@@ -8,8 +8,6 @@ class WordDAO {
 	}
 
 	async findOneById(clue) {
-		// console.log('dao' + clue);
-		// console.log('dao' + word);
 		const word = await WordModel.findOne(clue);
 		return word;
 	}

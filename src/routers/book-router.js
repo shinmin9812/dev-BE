@@ -18,11 +18,9 @@ bookRouter.get(
 	'/:id',
 	verifyToken,
 	asyncHandler(async (req, res) => {
-		console.log(req.user);
 		const { userEmail } = req.user;
 		const { id } = req.params;
 		const result = await bookService.findOneByUserAndId(userEmail, id);
-		console.log(result);
 		res.status(200).json(result);
 	}),
 );
@@ -69,9 +67,6 @@ bookRouter.put(
 			{ ownerEmail: req.user.userEmail, short_id: req.params.id },
 			updatedBook,
 		);
-		console.log(req.body);
-		console.log(result);
-
 		res.status(200).json(result);
 	}),
 );

@@ -35,7 +35,7 @@ class BookDAO {
 	}
 
 	async updateOneByUserAndId(find, update) {
-		const book = await BookModel.findOneAndUpdate(find, update);
+		const book = await BookModel.findOneAndUpdate(find, update, { new: true });
 		return book;
 	}
 
