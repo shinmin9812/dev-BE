@@ -12,14 +12,13 @@ wordRouter.get(
 	asyncHandler(async (req, res) => {
 		const { userEmail } = req.user;
 		if (Object.keys(req.query).length > 0) {
-			/** ownerEmail에 따른 단어 get */
 			const wordsByBook = await wordService.findWordsByBook(
 				userEmail,
 				req.query.bookId,
 			);
 			res.status(200).json(wordsByBook);
 		} else {
-			/**db에 있는 모든 단어 get */
+			/**db에 있는 모든 단어 찾기 */
 			const result = await wordService.findAllWordsOfThisUser(userEmail);
 			res.status(200).json(result);
 		}
