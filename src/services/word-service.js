@@ -3,6 +3,7 @@ const { BookModel } = require('../db/schemas/book-schema');
 
 class WordService {
 	async findWordsByBook(userEmail, book) {
+		console.log(book)
 		const words = await wordDAO.findWordsByBook(userEmail, book);
 		if (!words) {
 			const err = new Error('단어를 찾을 수 없습니다.');
@@ -11,7 +12,8 @@ class WordService {
 		}
 		return words;
 	}
-
+	//  async findWordsByBook(userEmail, bookId) {
+	//           const words = await wordDAO.findWordsByBook(userEmail, bookId);
 
 	async findOneById(clue) {
 		const word = await wordDAO.findOneById(clue);
