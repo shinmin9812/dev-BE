@@ -41,7 +41,7 @@ userRouter.post('/', async (req, res, next) => {
 	}
 });
 
-userRouter.delete('/me', verifyToken, async (req, res, next) => {
+userRouter.post('/me', verifyToken, async (req, res, next) => {
 	try {
 		const { userEmail } = req.user;
 		const { typedPassword } = req.body;
