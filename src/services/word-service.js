@@ -12,7 +12,6 @@ class WordService {
 		return words;
 	}
 
-
 	async findOneById(clue) {
 		const word = await wordDAO.findOneById(clue);
 		if (!word) {

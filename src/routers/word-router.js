@@ -6,7 +6,6 @@ const verifyToken = require('../middlewares/auth-handler');
 const { meaningService } = require('../services/meaning-service');
 const wordRouter = Router();
 
-
 wordRouter.get(
 	'/',
 	verifyToken,
@@ -28,10 +27,13 @@ wordRouter.get(
 );
 
 /** 비회원이 볼 수 있는 샘플단어장 */
-wordRouter.get('/sample', asyncHandler(async (req, res) => {
-	const result = await wordService.findSampleWords();
-	res.status(200).json(result);
-}));
+wordRouter.get(
+	'/sample',
+	asyncHandler(async (req, res) => {
+		const result = await wordService.findSampleWords();
+		res.status(200).json(result);
+	}),
+);
 
 /** status에 따른 words 반환 */
 wordRouter.get(
@@ -121,12 +123,11 @@ wordRouter.patch(
 		const updatedWord = await WordModel.findOneAndUpdate(
 			clue,
 			{ status: updatedStatus },
-			{ new: true } // 이 부분이 추가된 부분입니다.
+			{ new: true }, // 이 부분이 추가된 부분입니다.
 		);
 		res.status(200).json(updatedWord);
 	}),
 );
-
 
 /** 단어 여러개의 암기상태(status)를 변경 */
 wordRouter.patch(
@@ -202,9 +203,5 @@ wordRouter.post(
 		}
 	}),
 );
-
-
-
-
 
 module.exports = { wordRouter };
