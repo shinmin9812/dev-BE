@@ -127,6 +127,34 @@ class WordService {
 		}
 	}
 
+	async findWordAndUpdate(clue, status) {
+		/** 수정할 단어의 ownerEmail과 clue의 ownerEmail이 동일한지 검증 */
+		const currWord = await wordDAO.findOneById(clue);
+		if (currWord.ownerEmail === clue.ownerEmail) {
+			const word = await wordDAO.findWordAndUpdate(clue, status);
+			if (!word) {
+				const err = new Error('암기상태를 수정하지 못했습니다.');
+				err.status = 500;
+				throw err;
+			}
+			return word;
+		}
+	}
+
+	async findWordsAndUpdate(clue, updateObj) {
+		/** 수정할 단어의 ownerEmail과 clue의 ownerEmail이 동일한지 검증 */
+		const currWord = await wordDAO.findOneById(clue);
+		if (currWord.ownerEmail === clue.ownerEmail) {
+			const word = await wordDAO.findWordsAndUpdate(clue, updateObj);
+			if (!word) {
+				const err = new Error('암기상태를 수정하지 못했습니다.');
+				err.status = 500;
+				throw err;
+			}
+			return word;
+		}
+	}
+
 	async deleteOne(clue) {
 		/** 삭제할 단어의 ownerEmail과 clue의 ownerEmail이 동일한지 검증 */
 		const currWord = await wordDAO.findOneById(clue);

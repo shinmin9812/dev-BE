@@ -47,6 +47,20 @@ class WordDAO {
 		return word;
 	}
 
+	async findWordAndUpdate(clue, update) {
+		const word = await WordModel.findOneAndUpdate(clue, update, {
+			new: true,
+		});
+		return word;
+	}
+
+	async findWordsAndUpdate(clue, update) {
+		const word = await WordModel.findOneAndUpdate(clue, update, {
+			new: true,
+		});
+		return word;
+	}
+
 	async deleteOne(clue) {
 		const word = await WordModel.findOneAndDelete(clue);
 		return word;

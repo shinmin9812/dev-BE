@@ -118,12 +118,12 @@ wordRouter.patch(
 	asyncHandler(async (req, res) => {
 		const { userEmail } = req.user;
 		const { id } = req.params;
+		const { status } = req.body;
 		const clue = { short_id: id, ownerEmail: userEmail };
-		const updatedStatus = 1;
-		const updatedWord = await WordModel.findOneAndUpdate(
+		const updatedStatus = status;
+		const updatedWord = await wordService.findWordAndUpdate(
 			clue,
 			{ status: updatedStatus },
-			{ new: true }, // 이 부분이 추가된 부분입니다.
 		);
 		res.status(200).json(updatedWord);
 	}),
@@ -141,8 +141,7 @@ wordRouter.patch(
 			const { short_id, status } = update;
 			const clue = { short_id, ownerEmail: userEmail };
 			const updateObj = { $set: { status } };
-			const options = { new: true };
-			const result = await WordModel.findOneAndUpdate(clue, updateObj, options);
+			const result = await wordService.findWordsAndUpdate(clue, updateObj);
 			results.push(result);
 		}
 		res.status(200).json(results);
