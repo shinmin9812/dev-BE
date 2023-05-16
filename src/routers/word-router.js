@@ -6,34 +6,31 @@ const verifyToken = require('../middlewares/auth-handler');
 const { meaningService } = require('../services/meaning-service');
 const wordRouter = Router();
 
-
 wordRouter.get(
 	'/',
 	verifyToken,
 	asyncHandler(async (req, res) => {
 		const { userEmail } = req.user;
 		if (Object.keys(req.query).length > 0) {
-			/** ownerEmail에 따른 단어 get */
 			const wordsByBook = await wordService.findWordsByBook(
 				userEmail,
 				req.query.bookId,
 			);
 			res.status(200).json(wordsByBook);
 		} else {
-			/**db에 있는 모든 단어 get */
+			/**db에 있는 모든 단어 찾기 */
 			const result = await wordService.findAllWordsOfThisUser(userEmail);
 			res.status(200).json(result);
 		}
 	}),
 );
 
-/** 비회원이 볼 수 있는 샘플단어장 */
+
 wordRouter.get('/sample', asyncHandler(async (req, res) => {
 	const result = await wordService.findSampleWords();
 	res.status(200).json(result);
 }));
 
-/** status에 따른 words 반환 */
 wordRouter.get(
 	'/status/:status',
 	verifyToken,
@@ -45,7 +42,6 @@ wordRouter.get(
 	}),
 );
 
-/** word 하나만 id로 get */
 wordRouter.get(
 	'/:id',
 	verifyToken,
@@ -58,7 +54,6 @@ wordRouter.get(
 	}),
 );
 
-/** word 를 생성 */
 wordRouter.post(
 	'/',
 	verifyToken,
@@ -82,7 +77,6 @@ wordRouter.post(
 	}),
 );
 
-/** word 하나를 삭제 */
 wordRouter.delete(
 	'/:id',
 	verifyToken,
@@ -95,7 +89,6 @@ wordRouter.delete(
 	}),
 );
 
-/** word 전체를 변경 */
 wordRouter.put(
 	'/:id',
 	verifyToken,
@@ -106,45 +99,6 @@ wordRouter.put(
 		const updatedWord = { ...req.body };
 		const result = await wordService.updateOne(clue, updatedWord);
 		res.status(200).json(result);
-	}),
-);
-
-/** word의 암기상태(status)를 변경 */
-wordRouter.patch(
-	'/:id',
-	verifyToken,
-	asyncHandler(async (req, res) => {
-		const { userEmail } = req.user;
-		const { id } = req.params;
-		const clue = { short_id: id, ownerEmail: userEmail };
-		const updatedStatus = 1;
-		const updatedWord = await WordModel.findOneAndUpdate(
-			clue,
-			{ status: updatedStatus },
-			{ new: true } // 이 부분이 추가된 부분입니다.
-		);
-		res.status(200).json(updatedWord);
-	}),
-);
-
-
-/** 단어 여러개의 암기상태(status)를 변경 */
-wordRouter.patch(
-	'/',
-	verifyToken,
-	asyncHandler(async (req, res) => {
-		const { userEmail } = req.user;
-		const { updates } = req.body;
-		const results = [];
-		for (const update of updates) {
-			const { short_id, status } = update;
-			const clue = { short_id, ownerEmail: userEmail };
-			const updateObj = { $set: { status } };
-			const options = { new: true };
-			const result = await WordModel.findOneAndUpdate(clue, updateObj, options);
-			results.push(result);
-		}
-		res.status(200).json(results);
 	}),
 );
 

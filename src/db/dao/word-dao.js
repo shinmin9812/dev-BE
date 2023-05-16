@@ -4,6 +4,7 @@ class WordDAO {
 	/**단어장에 따라 단어찾기 */
 	async findWordsByBook(userEmail, bookId) {
 		const words = await WordModel.find({ ownerEmail: userEmail, bookId: bookId });
+		console.log(words)
 		return words;
 	}
 
