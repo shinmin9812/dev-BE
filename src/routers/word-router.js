@@ -96,8 +96,8 @@ wordRouter.delete(
 	}),
 );
 
-/** word 전체를 변경 */
-wordRouter.put(
+/** word 전체를 변경(암기상태 포함) */
+wordRouter.patch(
 	'/:id',
 	verifyToken,
 	asyncHandler(async (req, res) => {
@@ -107,24 +107,6 @@ wordRouter.put(
 		const updatedWord = { ...req.body };
 		const result = await wordService.updateOne(clue, updatedWord);
 		res.status(200).json(result);
-	}),
-);
-
-/** word의 암기상태(status)를 변경 */
-wordRouter.patch(
-	'/:id',
-	verifyToken,
-	asyncHandler(async (req, res) => {
-		const { userEmail } = req.user;
-		const { id } = req.params;
-		const { status } = req.body;
-		const clue = { short_id: id, ownerEmail: userEmail };
-		const updatedStatus = status;
-		const updatedWord = await wordService.findWordAndUpdate(
-			clue,
-			{ status: updatedStatus },
-		);
-		res.status(200).json(updatedWord);
 	}),
 );
 
