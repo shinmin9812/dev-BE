@@ -41,9 +41,13 @@ class WordDAO {
 	}
 
 	async updateOne(clue, update) {
-		const word = await WordModel.findOneAndUpdate(clue.short_id, update, {
-			new: true,
-		});
+		const word = await WordModel.findOneAndUpdate(
+			{ short_id: clue.short_id },
+			update,
+			{
+				new: true,
+			},
+		);
 		return word;
 	}
 
