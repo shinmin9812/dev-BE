@@ -3,7 +3,7 @@ const { BookModel } = require('../db/schemas/book-schema');
 
 class WordService {
 	async findWordsByBook(userEmail, book) {
-		console.log(book)
+		console.log(book);
 		const words = await wordDAO.findWordsByBook(userEmail, book);
 		if (!words) {
 			const err = new Error('단어를 찾을 수 없습니다.');
@@ -104,6 +104,11 @@ class WordService {
 	async updateOne(clue, update) {
 		/** 수정할 단어의 전체 정보 */
 		const currWord = await wordDAO.findOneById(clue);
+		if (!currWord) {
+			const err = new Error('해당 단어를 찾을 수 없어 수정에 실패하였습니다.');
+			err.status = 404;
+			throw err;
+		}
 		/** 해당 유저가 가진 단어장이 맞는지 */
 		//추후 bookDAO 나 BookService로 수정
 		const thisBook = await BookModel.findOne({
@@ -125,20 +130,6 @@ class WordService {
 				throw err;
 			}
 			return newWord;
-		}
-	}
-
-	async findWordAndUpdate(clue, status) {
-		/** 수정할 단어의 ownerEmail과 clue의 ownerEmail이 동일한지 검증 */
-		const currWord = await wordDAO.findOneById(clue);
-		if (currWord.ownerEmail === clue.ownerEmail) {
-			const word = await wordDAO.findWordAndUpdate(clue, status);
-			if (!word) {
-				const err = new Error('암기상태를 수정하지 못했습니다.');
-				err.status = 500;
-				throw err;
-			}
-			return word;
 		}
 	}
 
