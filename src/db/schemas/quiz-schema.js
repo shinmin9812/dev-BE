@@ -5,6 +5,10 @@ const { shortId } = require('../../utils/short-id');
 const QuizSchema = new Schema(
 	{
 		short_id: shortId,
+		category: {
+			type: String,
+			required: true,
+		},
 		ownerEmail: {
 			type: String,
 			required: true,

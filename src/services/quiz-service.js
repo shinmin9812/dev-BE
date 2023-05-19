@@ -1,7 +1,10 @@
-const { QuizDAO } = require('../db/dao/quiz-dao');
-const { QuizSchema } = require('../db/schemas/quiz-schema');
+const { quizDAO } = require('../db/dao/quiz-dao');
 
-class QuizService {}
-
+class QuizService {
+	async createOne(params) {
+		const quiz = await quizDAO.createOne(params);
+		return quiz;
+	}
+}
 const quizService = new QuizService();
 module.exports = { quizService };
