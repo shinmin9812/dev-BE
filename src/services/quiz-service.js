@@ -1,5 +1,4 @@
-const { QuizDAO } = require('../db/dao/quiz-dao');
-const { QuizSchema } = require('../db/schemas/quiz-schema');
+const { quizDAO } = require('../db/dao/quiz-dao');
 const { wordDAO } = require('../db/dao/word-dao');
 
 class QuizService {

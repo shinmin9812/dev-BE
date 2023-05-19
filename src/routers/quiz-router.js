@@ -1,9 +1,8 @@
 const { Router } = require('express');
 const verifyToken = require('../middlewares/auth-handler');
 const { asyncHandler } = require('../middlewares/async-handler');
-const { quizService } = require('../services/quiz-service');
-const QuizModel = require('../db/schemas/quiz-schema');
 const quizRouter = Router();
+const { quizService } = require('../services/quiz-service');
 
 //=====================지은 시작
 quizRouter.post(
