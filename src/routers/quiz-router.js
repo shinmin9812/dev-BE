@@ -1,17 +1,23 @@
 const { Router } = require('express');
 const verifyToken = require('../middlewares/auth-handler');
-const QuizModel = require('../db/schemas/quiz-schema');
+const { asyncHandler } = require('../middlewares/async-handler');
+const { quizService } = require('../services/quiz-service');
 const quizRouter = Router();
 
+//=====================지은 시작
 quizRouter.post(
 	'/',
-	verifyToken, // 토큰 확인?
+	verifyToken,
 	asyncHandler(async (req, res) => {
-		const result = req.body;
-		const test = await QuizModel.create(req.body);
-		result.ownerEmail = req.user.userEmail;
-		res.status(200).json(test);
+		const { userEmail } = req.user;
+		const quizData = {
+			...req.body,
+			ownerEmail: userEmail,
+		};
+		const result = await quizService.createOne(quizData);
+		res.status(200).json(result);
 	}),
 );
+//=====================지은 끝
 
 module.exports = { quizRouter };
