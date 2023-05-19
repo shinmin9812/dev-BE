@@ -76,6 +76,13 @@ class WordDAO {
 		const word = await WordModel.deleteMany({});
 		return word;
 	}
+
+	//동균 시작================================================
+	async findManyByIds(wordIds) {
+		const words = await WordModel.find({ short_id: { $in: wordIds } });
+		return words;
+	}
+	//동균 끝================================================
 }
 
 const wordDAO = new WordDAO();
