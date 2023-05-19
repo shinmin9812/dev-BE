@@ -11,6 +11,7 @@ const { userRouter } = require('./routers/user-router');
 const { authRouter } = require('./routers/auth-router');
 const { searchRouter } = require('./routers/search-router');
 const { errorHandler } = require('./middlewares/error-handler');
+const { quizRouter } = require('./routers/quiz-router');
 
 const DB_URL =
 	process.env.MONGODB_URL || 'MongoDB 서버 주소가 설정되지 않았습니다.';
@@ -49,6 +50,7 @@ app.use('/api/books', bookRouter);
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/search', searchRouter);
+app.use('/api/quiz', quizRouter);
 app.use(errorHandler);
 
 app.listen(process.env.PORT, () => {
