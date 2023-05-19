@@ -51,7 +51,7 @@ quizRouter.get(
 			userEmail,
 			statuses,
 			bookIds,
-			number
+			number,
 		);
 
 		res.status(200).json(response);
