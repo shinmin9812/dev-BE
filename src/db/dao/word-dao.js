@@ -92,7 +92,7 @@ class WordDAO {
 
 		const words = await WordModel.find({
 			ownerEmail: userEmail,
-			createdAt: { $gte: startOfDay, $lte: endOfDay }
+			createdAt: { $gte: startOfDay, $lte: endOfDay },
 		});
 
 		return words;
@@ -105,7 +105,7 @@ class WordDAO {
 
 		const words = await WordModel.find({
 			ownerEmail: userEmail,
-			createdAt: { $gte: startOfMonth, $lte: endOfMonth }
+			createdAt: { $gte: startOfMonth, $lte: endOfMonth },
 		});
 
 		return words;

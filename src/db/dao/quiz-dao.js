@@ -26,7 +26,7 @@ class QuizDAO {
 
 		const quiz = await QuizModel.find({
 			ownerEmail: userEmail,
-			createdAt: { $gte: startOfDay, $lte: endOfDay }
+			createdAt: { $gte: startOfDay, $lte: endOfDay },
 		});
 
 		return quiz;
@@ -39,7 +39,7 @@ class QuizDAO {
 
 		const quiz = await QuizModel.find({
 			ownerEmail: userEmail,
-			createdAt: { $gte: startOfMonth, $lte: endOfMonth }
+			createdAt: { $gte: startOfMonth, $lte: endOfMonth },
 		});
 
 		return quiz;

@@ -66,7 +66,12 @@ function validateDate(dateInfo) {
 	const selectedDate = new Date(dateString);
 	if (isNaN(selectedDate.getTime())) {
 		throw new Error('유효하지 않은 날짜 형식입니다.');
-	};
+	}
 }
 
-module.exports = { validateEmail, validatePassword, validateNickname, validateDate };
+module.exports = {
+	validateEmail,
+	validatePassword,
+	validateNickname,
+	validateDate,
+};
