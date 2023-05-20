@@ -40,7 +40,7 @@ class BookDAO {
 	}
 
 	async deleteOneByUserAndId(params) {
-		const book = await BookModel.findOneAndDelete(params);
+		const book = await BookModel.findOneAndDelete(params.short_id);
 		return book;
 	}
 

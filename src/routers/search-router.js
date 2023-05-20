@@ -11,7 +11,6 @@ searchRouter.get(
 	verifyToken,
 	asyncHandler(async (req, res) => {
 		const { userEmail } = req.user;
-		// console.log(req.params)
 		const result = await WordModel.find({
 			ownerEmail: userEmail,
 			word: req.query.word,
