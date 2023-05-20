@@ -3,7 +3,7 @@ const { wordModel, WordModel } = require('../db/schemas/word-schema');
 const { wordService } = require('../services/word-service');
 const { asyncHandler } = require('../middlewares/async-handler');
 const verifyToken = require('../middlewares/auth-handler');
-const { addSampleWords } = require("../utils/addSampleWords");
+const { addSampleWords } = require('../utils/addSampleWords');
 const wordRouter = Router();
 
 wordRouter.get(
@@ -158,4 +158,3 @@ wordRouter.post(
 );
 
 module.exports = { wordRouter };
-
