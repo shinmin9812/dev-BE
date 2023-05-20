@@ -1,5 +1,6 @@
 const { wordDAO } = require('../db/dao/word-dao');
 const { BookModel } = require('../db/schemas/book-schema');
+const { validateDate } = require('../utils/validator');
 
 class WordService {
 	async findWordsByBook(userEmail, book) {
@@ -234,6 +235,26 @@ class WordService {
 			return words;
 		}
 	}
+
+	//서연 시작=============================
+	async findWordsBySelectedDate(userEmail, dateInfo) {
+		validateDate(dateInfo);
+
+		let words;
+		if (dateInfo.date) {
+			words = await wordDAO.findWordsByDate(userEmail, dateInfo);
+		} else {
+			words = await wordDAO.findWordsByMonth(userEmail, dateInfo);
+		}
+
+		if (!words) {
+			const err = new Error('단어들을 찾을 수 없습니다.');
+			err.status = 404;
+			throw err;
+		}
+		return words;
+	}
+	//서연 끝================================
 }
 
 const wordService = new WordService();

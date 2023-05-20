@@ -83,6 +83,34 @@ class WordDAO {
 		return words;
 	}
 	//동균 끝================================================
+
+	//서연 시작=====================================
+	async findWordsByDate(userEmail, dateInfo) {
+		const { year, month, date } = dateInfo;
+		const startOfDay = new Date(year, month - 1, date, 0, 0, 0);
+		const endOfDay = new Date(year, month - 1, date, 23, 59, 59);
+
+		const words = await WordModel.find({
+			ownerEmail: userEmail,
+			createdAt: { $gte: startOfDay, $lte: endOfDay },
+		});
+
+		return words;
+	}
+
+	async findWordsByMonth(userEmail, dateInfo) {
+		const { year, month } = dateInfo;
+		const startOfMonth = new Date(year, month - 1, 1, 0, 0, 0);
+		const endOfMonth = new Date(year, month, 0, 23, 59, 59);
+
+		const words = await WordModel.find({
+			ownerEmail: userEmail,
+			createdAt: { $gte: startOfMonth, $lte: endOfMonth },
+		});
+
+		return words;
+	}
+	//서연 끝======================================
 }
 
 const wordDAO = new WordDAO();

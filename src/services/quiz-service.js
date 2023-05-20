@@ -1,5 +1,6 @@
 const { quizDAO } = require('../db/dao/quiz-dao');
 const { wordDAO } = require('../db/dao/word-dao');
+const { validateDate } = require('../utils/validator');
 
 class QuizService {
 	//=====================지은 시작
@@ -31,6 +32,26 @@ class QuizService {
 		return quizAnswers;
 	}
 	//동균 끝================================================
+
+	//서연 시작=============================
+	async findQuizzesBySelectedDate(userEmail, dateInfo) {
+		validateDate(dateInfo);
+
+		let quiz;
+		if (dateInfo.date) {
+			quiz = await quizDAO.findQuizzesByDate(userEmail, dateInfo);
+		} else {
+			quiz = await quizDAO.findQuizzesByMonth(userEmail, dateInfo);
+		}
+
+		if (!quiz) {
+			const err = new Error('퀴즈를 찾을 수 없습니다.');
+			err.status = 404;
+			throw err;
+		}
+		return quiz;
+	}
+	//서연 끝================================
 }
 const quizService = new QuizService();
 module.exports = { quizService };

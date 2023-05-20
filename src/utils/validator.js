@@ -53,4 +53,25 @@ function validateNickname(nickname) {
 	return true;
 }
 
-module.exports = { validateEmail, validatePassword, validateNickname };
+function validateDate(dateInfo) {
+	const { year, month, date } = dateInfo;
+	if (!year || !month) {
+		throw new Error('year과 month는 필수 쿼리입니다.');
+	}
+
+	let dateString;
+	if (date) dateString = year + '-' + month + '-' + date;
+	else dateString = year + '-' + month + '-01';
+
+	const selectedDate = new Date(dateString);
+	if (isNaN(selectedDate.getTime())) {
+		throw new Error('유효하지 않은 날짜 형식입니다.');
+	}
+}
+
+module.exports = {
+	validateEmail,
+	validatePassword,
+	validateNickname,
+	validateDate,
+};
