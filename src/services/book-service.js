@@ -1,5 +1,5 @@
 const { bookDAO } = require('../db/dao/book-dao');
-
+const { BookModel } = require('../db/schemas/book-schema');
 class BookService {
 	async findOneById({ ownerEmail, short_id: id }) {
 		const book = await bookDAO.findOneByUserAndId({ ownerEmail, short_id: id });
@@ -8,11 +8,6 @@ class BookService {
 
 	async findAllByUser(userEmail) {
 		const books = await bookDAO.findAllByUser(userEmail);
-		if (!books) {
-			const err = new Error('단어장을 찾을 수 없습니다.');
-			err.status = 404;
-			throw err;
-		}
 		return books;
 	}
 
@@ -55,7 +50,18 @@ class BookService {
 		const books = await bookDAO.deleteAll();
 		return books;
 	}
-}
 
+	async findSampleBook() {
+		const sampleBook = await BookModel.findOne({
+			name: '샘플단어장',
+		});
+		if (!sampleBook) {
+			const err = new Error('단어장을 찾을 수 없습니다.');
+			err.status = 404;
+			throw err;
+		}
+		return sampleBook;
+	}
+}
 const bookService = new BookService();
 module.exports = { bookService };
