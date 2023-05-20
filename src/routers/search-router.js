@@ -11,10 +11,13 @@ searchRouter.get(
 	verifyToken,
 	asyncHandler(async (req, res) => {
 		const { userEmail } = req.user;
+		// console.log(req.params)
 		const result = await WordModel.find({
 			ownerEmail: userEmail,
 			word: req.query.word,
+			bookId: req.query.bookId,
 		});
+		console.log(req.query)
 		res.status(200).json(result);
 	}),
 );
