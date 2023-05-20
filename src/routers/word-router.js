@@ -10,6 +10,7 @@ wordRouter.get(
 	'/',
 	verifyToken,
 	asyncHandler(async (req, res) => {
+		// await WordModel.deleteMany({});
 		const { userEmail } = req.user;
 		if (Object.keys(req.query).length > 0) {
 			const wordsByBook = await wordService.findWordsByBook(

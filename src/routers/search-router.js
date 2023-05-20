@@ -14,7 +14,7 @@ searchRouter.get(
 		const result = await WordModel.find({
 			ownerEmail: userEmail,
 			word: req.query.word,
-			bookId: req.query.bookId,
+			...(req.query.bookId !== undefined && { bookId: req.query.bookId })
 		});
 		console.log(req.query)
 		res.status(200).json(result);
