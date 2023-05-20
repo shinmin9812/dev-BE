@@ -18,7 +18,6 @@ bookRouter.get(
 
 bookRouter.get(
 	'/sample',
-	verifyToken,
 	asyncHandler(async (req, res) => {
 		const result = await bookService.findSampleBook();
 		res.status(200).json(result);
