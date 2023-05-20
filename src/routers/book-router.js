@@ -25,7 +25,6 @@ bookRouter.get(
 	}),
 );
 
-
 bookRouter.get(
 	'/:id',
 	verifyToken,
