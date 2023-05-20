@@ -59,4 +59,19 @@ quizRouter.get(
 );
 //민석 끝===========================================
 
+//서연 시작===========================
+quizRouter.get(
+	'/calendar',
+	verifyToken,
+	asyncHandler(async (req, res) => {
+		const { userEmail } = req.user;
+		const dateInfo = req.query;
+		const result = await quizService.findQuizzesBySelectedDate(
+			userEmail,
+			dateInfo,
+		);
+		res.status(200).json(result);
+	}),
+);
+//서연 끝=============================
 module.exports = { quizRouter };
