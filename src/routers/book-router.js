@@ -10,10 +10,21 @@ bookRouter.get(
 	'/',
 	verifyToken,
 	asyncHandler(async (req, res) => {
-		const result = await bookService.findAll();
+		const { userEmail } = req.user;
+		const result = await bookService.findAllByUser(userEmail);
 		res.status(200).json(result);
 	}),
 );
+
+bookRouter.get(
+	'/sample',
+	verifyToken,
+	asyncHandler(async (req, res) => {
+		const result = await bookService.findSampleBook();
+		res.status(200).json(result);
+	}),
+);
+
 
 bookRouter.get(
 	'/:id',
