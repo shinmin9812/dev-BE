@@ -6,13 +6,8 @@ class BookService {
 		return book;
 	}
 
-	async findAllByUser(userEmail) {
-		const books = await bookDAO.findAllByUser(userEmail);
-		if (!books) {
-			const err = new Error('단어장을 찾을 수 없습니다.');
-			err.status = 404;
-			throw err;
-		}
+	async findAllByUser({ ownerEmail }) {
+		const books = await bookDAO.findAllByUser({ ownerEmail });
 		return books;
 	}
 

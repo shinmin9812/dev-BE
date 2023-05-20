@@ -9,8 +9,7 @@ bookRouter.get(
 	'/',
 	verifyToken,
 	asyncHandler(async (req, res) => {
-		const { userEmail } = req.user;
-		const result = await bookService.findAllByUser(userEmail);
+		const result = await bookService.findAll();
 		res.status(200).json(result);
 	}),
 );

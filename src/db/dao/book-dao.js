@@ -6,8 +6,8 @@ class BookDAO {
 		return book;
 	}
 
-	async findAllByUser(userEmail) {
-		const books = await BookModel.find({ ownerEmail: userEmail });
+	async findAllByUser(ownerEmail) {
+		const books = await BookModel.find({ ownerEmail });
 		return books;
 	}
 
