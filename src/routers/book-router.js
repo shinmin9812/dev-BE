@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const { BookModel } = require('../db/schemas/book-schema');
 const { bookService } = require('../services/book-service');
 const { asyncHandler } = require('../middlewares/async-handler');
 const verifyToken = require('../middlewares/auth-handler');
@@ -14,6 +15,16 @@ bookRouter.get(
 		res.status(200).json(result);
 	}),
 );
+
+bookRouter.get(
+	'/sample',
+	verifyToken,
+	asyncHandler(async (req, res) => {
+		const result = await bookService.findSampleBook();
+		res.status(200).json(result);
+	}),
+);
+
 
 bookRouter.get(
 	'/:id',
