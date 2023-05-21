@@ -110,6 +110,15 @@ class WordDAO {
 
 		return words;
 	}
+
+	async findWordsByIds(userEmail, ids) {
+		const words = WordModel.find({
+			ownerEmail: userEmail,
+			short_id: { $in: ids },
+		});
+
+		return words;
+	}
 	//서연 끝======================================
 }
 

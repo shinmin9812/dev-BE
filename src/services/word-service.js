@@ -266,6 +266,16 @@ class WordService {
 		}
 		return words;
 	}
+
+	async findWordsByIds(userEmail, ids) {
+		const word = await wordDAO.findWordsByIds(userEmail, ids);
+		if (!word) {
+			const err = new Error('단어들을 찾을 수 없습니다.');
+			err.status = 404;
+			throw err;
+		}
+		return word;
+	}
 	//서연 끝================================
 }
 
