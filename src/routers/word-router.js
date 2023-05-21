@@ -76,6 +76,21 @@ wordRouter.get(
 	}),
 );
 
+//서연 시작===========================
+//여러개의 word를 id로 가져오기
+wordRouter.get(
+	'/multiple/:ids',
+	verifyToken,
+	asyncHandler(async (req, res) => {
+		const { userEmail } = req.user;
+		const ids = req.params.ids.split(',');
+		const result = await wordService.findWordsByIds(userEmail, ids);
+
+		res.status(200).json(result);
+	}),
+);
+//서연 끝=============================
+
 /** word 를 생성 */
 wordRouter.post(
 	'/',
