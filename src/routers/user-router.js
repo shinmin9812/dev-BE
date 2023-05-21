@@ -39,10 +39,16 @@ userRouter.post('/', async (req, res, next) => {
 		const userInfo = req.body;
 		const user = await userService.createUser(userInfo);
 		const sampleBook = await bookService.createSample(user.userEmail);
-		const sampleWords = await addSampleWords({ body: sampleData }, sampleBook.ownerEmail, sampleBook.short_id, null)
+		const sampleWords = await addSampleWords(
+			{ body: sampleData },
+			sampleBook.ownerEmail,
+			sampleBook.short_id,
+			null,
+		);
 		res.status(200).json(user);
 	} catch (err) {
-		next(err); ''
+		next(err);
+		('');
 	}
 });
 

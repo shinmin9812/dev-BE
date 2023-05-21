@@ -1,7 +1,7 @@
 const { wordService } = require('../services/word-service');
 const { meaningService } = require('../services/meaning-service');
 
-async function addSampleWords(req, userEmail, bookId, res) {
+async function addAdminWords(req, userEmail, res) {
 	if (Array.isArray(req.body)) {
 		const newWordsArray = req.body;
 		const promises = newWordsArray.map(async (word, index) => {
@@ -13,7 +13,6 @@ async function addSampleWords(req, userEmail, bookId, res) {
 							word.word,
 						);
 						word.ownerEmail = userEmail;
-						word.bookId = bookId;
 						word.meanings = meanings;
 						console.log(word);
 						resolve(word);
@@ -32,7 +31,7 @@ async function addSampleWords(req, userEmail, bookId, res) {
 				return wordService.createMany(filteredWords);
 			})
 			.then(result => {
-				// res.status(200).json(result);
+				res.status(200).json(result);
 			})
 			.catch(err => {
 				console.log(`Error occurred: ${err.message}`);
@@ -49,5 +48,4 @@ async function addSampleWords(req, userEmail, bookId, res) {
 		res.status(200).json(result);
 	}
 }
-
-exports.addSampleWords = addSampleWords;
+exports.addAdminWords = addAdminWords;
