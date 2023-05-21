@@ -3,14 +3,13 @@ const { wordModel, WordModel } = require('../db/schemas/word-schema');
 const { wordService } = require('../services/word-service');
 const { asyncHandler } = require('../middlewares/async-handler');
 const verifyToken = require('../middlewares/auth-handler');
-const { addSampleWords } = require('../utils/addSampleWords');
+const { addAdminWords } = require('../utils/addAdminWords');
 const wordRouter = Router();
 
 wordRouter.get(
 	'/',
 	verifyToken,
 	asyncHandler(async (req, res) => {
-		// await WordModel.deleteMany({});
 		const { userEmail } = req.user;
 		if (Object.keys(req.query).length > 0) {
 			const wordsByBook = await wordService.findWordsByBook(
@@ -168,7 +167,7 @@ wordRouter.post(
 	asyncHandler(async (req, res) => {
 		const { userEmail } = req.user;
 		/**배열로 여러개 생성하려한다면 */
-		await addSampleWords(req, userEmail, res);
+		await addAdminWords(req, userEmail, res);
 	}),
 );
 

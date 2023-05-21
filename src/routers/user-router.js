@@ -1,6 +1,9 @@
 const { Router } = require('express');
 const { userService } = require('../services/user-service');
+const { bookService } = require('../services/book-service');
+const { addSampleWords } = require('../utils/addSampleWords');
 const verifyToken = require('../middlewares/auth-handler');
+const sampleData = require('../../data.json');
 const userRouter = Router();
 
 userRouter.get('/', async (req, res, next) => {
@@ -35,9 +38,17 @@ userRouter.post('/', async (req, res, next) => {
 	try {
 		const userInfo = req.body;
 		const user = await userService.createUser(userInfo);
+		const sampleBook = await bookService.createSample(user.userEmail);
+		const sampleWords = await addSampleWords(
+			{ body: sampleData },
+			sampleBook.ownerEmail,
+			sampleBook.short_id,
+			null,
+		);
 		res.status(200).json(user);
 	} catch (err) {
 		next(err);
+		('');
 	}
 });
 
