@@ -1,4 +1,4 @@
-const { Router, response } = require('express');
+const { Router } = require('express');
 const { WordModel } = require('../db/schemas/word-schema');
 const { BookModel } = require('../db/schemas/book-schema');
 const { wordService } = require('../services/word-service');

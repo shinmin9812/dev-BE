@@ -64,13 +64,12 @@ class BookService {
 	}
 	async createSample(userEmail) {
 		const sampleBook = await bookDAO.createSample({
-			name: "샘플단어장",
-			description: "샘플단어장입니다",
-			start_lang: "english",
-			end_lang: "korean",
-			ownerEmail: userEmail
-		}
-		);
+			name: '샘플단어장',
+			description: '샘플단어장입니다',
+			start_lang: 'english',
+			end_lang: 'korean',
+			ownerEmail: userEmail,
+		});
 		if (!sampleBook) {
 			const err = new Error('샘플 단어장 생성에 실패하였습니다.');
 			err.status = 404;
