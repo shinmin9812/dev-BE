@@ -22,6 +22,18 @@ searchRouter.get(
 );
 
 searchRouter.get(
+	'/',
+	asyncHandler(async (req, res) => {
+		const result = await WordModel.find({
+			word: req.query.word,
+			...(req.query.bookId !== undefined && { bookId: req.query.bookId }),
+		});
+		console.log(result);
+		res.status(200).json(result);
+	}),
+);
+
+searchRouter.get(
 	'/books',
 	verifyToken,
 	asyncHandler(async (req, res) => {
