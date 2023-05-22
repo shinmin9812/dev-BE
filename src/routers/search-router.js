@@ -1,4 +1,4 @@
-const { Router } = require('express');
+const { Router, response } = require('express');
 const { WordModel } = require('../db/schemas/word-schema');
 const { BookModel } = require('../db/schemas/book-schema');
 const { wordService } = require('../services/word-service');
@@ -17,6 +17,18 @@ searchRouter.get(
 			...(req.query.bookId !== undefined && { bookId: req.query.bookId }),
 		});
 		console.log(req.query);
+		res.status(200).json(result);
+	}),
+);
+
+searchRouter.get(
+	'/',
+	asyncHandler(async (req, res) => {
+		const result = await WordModel.find({
+			word: req.query.word,
+			...(req.query.bookId !== undefined && { bookId: req.query.bookId }),
+		});
+		console.log(result);
 		res.status(200).json(result);
 	}),
 );
