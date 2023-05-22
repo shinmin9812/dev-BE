@@ -48,6 +48,10 @@ class BookDAO {
 		const books = await BookModel.deleteMany({});
 		return books;
 	}
+	async createSample(params) {
+		const books = await BookModel.create(params);
+		return books;
+	}
 }
 
 const bookDAO = new BookDAO();
