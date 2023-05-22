@@ -48,7 +48,6 @@ userRouter.post('/', async (req, res, next) => {
 		res.status(200).json(user);
 	} catch (err) {
 		next(err);
-		('');
 	}
 });
 
