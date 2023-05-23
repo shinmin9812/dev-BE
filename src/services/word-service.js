@@ -57,13 +57,12 @@ class WordService {
 		return words;
 	}
 
-	async findWordsByBookAndStatus(userEmail, statuses, bookIds, number) {
+	async findWordsByBookAndStatus(statuses, bookIds, number) {
 		const randomAnswersIndex = [];
 		const answersArray = [];
 		const selectionsArray = [];
 
 		const words = await wordDAO.findWordsByBookAndStatus(
-			userEmail,
 			statuses,
 			bookIds,
 		);
