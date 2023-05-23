@@ -40,15 +40,12 @@ quizRouter.get(
 //민석 시작===========================================
 quizRouter.get(
 	'/four-prong',
-	verifyToken,
 	asyncHandler(async (req, res) => {
-		const { userEmail } = req.user;
 		const bookIds = req.query.bookId.split(',');
 		const number = parseInt(req.query.number);
 		const statuses = req.query.status.split(',').map(Number);
 
 		const response = await wordService.findWordsByBookAndStatus(
-			userEmail,
 			statuses,
 			bookIds,
 			number,

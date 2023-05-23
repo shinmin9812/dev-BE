@@ -30,9 +30,8 @@ class WordDAO {
 		return words;
 	}
 
-	async findWordsByBookAndStatus(userEmail, statuses, bookIds) {
+	async findWordsByBookAndStatus(statuses, bookIds) {
 		const words = await WordModel.find({
-			ownerEmail: userEmail,
 			bookId: { $in: bookIds },
 			status: { $in: statuses },
 		});
