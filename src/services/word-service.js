@@ -62,10 +62,7 @@ class WordService {
 		const answersArray = [];
 		const selectionsArray = [];
 
-		const words = await wordDAO.findWordsByBookAndStatus(
-			statuses,
-			bookIds,
-		);
+		const words = await wordDAO.findWordsByBookAndStatus(statuses, bookIds);
 
 		/** words를 반환하지 못하면 에러 */
 		if (!words) {

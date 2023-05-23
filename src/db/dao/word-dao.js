@@ -112,7 +112,7 @@ class WordDAO {
 
 	async findWordsByIds(ids) {
 		const words = WordModel.find({
-			short_id: { $in: ids }
+			short_id: { $in: ids },
 		});
 
 		return words;
