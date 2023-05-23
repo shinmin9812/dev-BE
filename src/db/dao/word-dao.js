@@ -110,10 +110,9 @@ class WordDAO {
 		return words;
 	}
 
-	async findWordsByIds(userEmail, ids) {
+	async findWordsByIds(ids) {
 		const words = WordModel.find({
-			ownerEmail: userEmail,
-			short_id: { $in: ids },
+			short_id: { $in: ids }
 		});
 
 		return words;

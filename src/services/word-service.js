@@ -266,8 +266,8 @@ class WordService {
 		return words;
 	}
 
-	async findWordsByIds(userEmail, ids) {
-		const word = await wordDAO.findWordsByIds(userEmail, ids);
+	async findWordsByIds(ids) {
+		const word = await wordDAO.findWordsByIds(ids);
 		if (!word) {
 			const err = new Error('단어들을 찾을 수 없습니다.');
 			err.status = 404;
