@@ -20,7 +20,6 @@ bookRouter.get(
 	'/sample',
 	asyncHandler(async (req, res) => {
 		const result = await bookService.findSampleBook();
-		console.log("🚀 ~ file: book-router.js:23 ~ asyncHandler ~ result:", result)
 		res.status(200).json(result);
 	}),
 );
