@@ -4,7 +4,6 @@ const { validateDate } = require('../utils/validator');
 
 class WordService {
 	async findWordsByBook(userEmail, book) {
-		console.log(book);
 		const words = await wordDAO.findWordsByBook(userEmail, book);
 		if (!words) {
 			const err = new Error('단어를 찾을 수 없습니다.');

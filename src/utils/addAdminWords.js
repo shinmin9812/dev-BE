@@ -14,7 +14,6 @@ async function addAdminWords(req, userEmail, res) {
 						);
 						word.ownerEmail = userEmail;
 						word.meanings = meanings;
-						console.log(word);
 						resolve(word);
 					} catch (err) {
 						console.log(
