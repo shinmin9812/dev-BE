@@ -17,7 +17,6 @@ class WordDAO {
 
 	async findSampleWords(bookId) {
 		const words = await WordModel.find({ bookId: bookId });
-		console.log(bookId);
 		return words;
 	}
 

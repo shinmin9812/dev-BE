@@ -16,7 +16,6 @@ searchRouter.get(
 			word: req.query.word,
 			...(req.query.bookId !== undefined && { bookId: req.query.bookId }),
 		});
-		console.log(req.query);
 		res.status(200).json(result);
 	}),
 );
@@ -28,7 +27,6 @@ searchRouter.get(
 			word: req.query.word,
 			...(req.query.bookId !== undefined && { bookId: req.query.bookId }),
 		});
-		console.log(result);
 		res.status(200).json(result);
 	}),
 );
