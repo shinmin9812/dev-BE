@@ -52,8 +52,9 @@ class BookService {
 	}
 
 	async findSampleBook() {
-		const sampleBook = await BookModel.findOne({
+		const sampleBook = await BookModel.find({
 			name: '샘플단어장',
+			ownerEmail: 'sample@test.com',
 		});
 		if (!sampleBook) {
 			const err = new Error('단어장을 찾을 수 없습니다.');
