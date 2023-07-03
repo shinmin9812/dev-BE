@@ -107,41 +107,33 @@ class UserService {
 	}
 
 	async deleteUser(userEmail, typedPassword) {
-		// try {
-		const user = await userDAO.findUserByEmail(userEmail);
-		if (!user) {
-			throw new Error(`이메일이 ${userEmail}인 유저가 존재하지 않습니다.`);
-		}
-
-		const isValidPassword = await userService.verifyPassword(
-			typedPassword,
-			user.password,
-		);
-
-		if (!isValidPassword) {
-			const error = new Error(`비밀번호가 일치하지 않습니다.`);
-			error.status = 401;
-			throw error;
-		}
-
-		const { deletedCount } = await userDAO.deleteUser({
-			userEmail,
-		});
-
-		if (!deletedCount) {
-			throw new Error(`이메일이 ${userEmail}인 유저가 존재하지 않습니다.`);
-		}
-		// } catch (err) {
-		// 	err.message = `유저 삭제에 실패했습니다.`;
-		// 	throw err;
-		// }
-	}
-
-	async verifyPassword(userPassword, hashedPassword) {
 		try {
-			return await bcrypt.compare(userPassword, hashedPassword);
+			const user = await userDAO.findUserByEmail(userEmail);
+			if (!user) {
+				throw new Error(`이메일이 ${userEmail}인 유저가 존재하지 않습니다.`);
+			}
+
+			const isValidPassword = await bcrypt.compare(
+				typedPassword,
+				user.password,
+			);
+
+			if (!isValidPassword) {
+				const error = new Error(`비밀번호가 일치하지 않습니다.`);
+				error.status = 401;
+				throw error;
+			} else {
+				const { deletedCount } = await userDAO.deleteUser({
+					userEmail,
+				});
+
+				if (!deletedCount) {
+					throw new Error(`이메일이 ${userEmail}인 유저가 존재하지 않습니다.`);
+				}
+			}
 		} catch (err) {
-			throw new Error(err);
+			err.message = `유저 삭제에 실패했습니다.`;
+			throw err;
 		}
 	}
 }
