@@ -20,6 +20,7 @@ function validatePassword(password) {
 	if (
 		!hasSpecialChar.test(password) ||
 		!hasUpperCase.test(password) ||
+    
 		!hasLowerCase.test(password) ||
 		!hasNumber.test(password)
 	) {
