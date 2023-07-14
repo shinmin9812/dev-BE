@@ -1,60 +1,85 @@
 const { Router } = require('express');
-const {
-	WordModel,
-	BookModel,
-	BookCaseModel,
-} = require('../db/schemas/word-schema');
-const { bookService } = require('../services/word-service');
+const { BookModel } = require('../db/schemas/book-schema');
+const { bookService } = require('../services/book-service');
+const { asyncHandler } = require('../middlewares/async-handler');
+const verifyToken = require('../middlewares/auth-handler');
+
 const bookRouter = Router();
 
-bookRouter.get('/', async (req, res) => {
-	const result = await BookModel.find({});
-	res.json(result);
-});
+bookRouter.get(
+	'/',
+	verifyToken,
+	asyncHandler(async (req, res) => {
+		const { userEmail } = req.user;
+		const result = await bookService.findAllByUser(userEmail);
+		res.status(200).json(result);
+	}),
+);
 
-bookRouter.get('/:id', async (req, res) => {
-	const { id } = req.params;
-	const result = await BookModel.find({ short_id: id });
-	res.json(result);
-});
+bookRouter.get(
+	'/sample',
+	asyncHandler(async (req, res) => {
+		const result = await bookService.findSampleBook();
+		res.status(200).json(result);
+	}),
+);
 
-bookRouter.post('/', async (req, res) => {
-	const newBook = req.body; // 포스트맨 바디가 여기 담겨온다
-	console.log(newBook);
-	const result = await BookModel.create(newBook);
-	res.json(result);
-});
+bookRouter.get(
+	'/:id',
+	verifyToken,
+	asyncHandler(async (req, res) => {
+		const { userEmail } = req.user;
+		const { id } = req.params;
+		const result = await bookService.findOneByUserAndId(userEmail, id);
+		res.status(200).json(result);
+	}),
+);
 
-bookRouter.delete('/:id', async (req, res) => {
-	const { id } = req.params;
-	const result = await BookModel.findOneAndDelete({ short_id: id });
-	res.json(result);
-});
+bookRouter.post(
+	'/',
+	verifyToken,
+	asyncHandler(async (req, res) => {
+		const newBook = req.body;
+		newBook.ownerEmail = req.user.userEmail;
+		if (
+			!newBook.name ||
+			!newBook.start_lang ||
+			!newBook.end_lang ||
+			!newBook.ownerEmail
+		) {
+			const err = new Error('단어장을 만들지 못했습니다');
+			err.status = 400;
+			throw err;
+		}
+		const result = await bookService.createOne(newBook);
+		res.status(201).json(result);
+	}),
+);
 
-bookRouter.put('/short-id/:id', async (req, res) => {
-	const { id } = req.params;
-	const updatedBook = req.body;
-	const result = await BookModel.findOneAndUpdate(
-		{ short_id: id },
-		updatedBook,
-	);
-	res.json(result);
-});
+bookRouter.delete(
+	'/:id',
+	verifyToken,
+	asyncHandler(async (req, res) => {
+		const result = await bookService.deleteOne({
+			ownerEmail: req.user.userEmail,
+			short_id: req.params.id,
+		});
+		res.status(204).json({ message: '단어장이 삭제되었습니다' });
+	}),
+);
 
-bookRouter.put('/name/:currName', async (req, res) => {
-	const { currName } = req.params;
-	console.log(currName);
-	const updatedBook = req.body;
-	// bookRouter.delete('/:id', async (req, res) => {
-	// 	const { id } = req.params;
-	// 	const result = await bookService.deleteOne({ short_id: id });
-	// 	console.log(result);
-	// 	res.json('삭제 성공');
+bookRouter.put(
+	'/:id',
+	verifyToken,
+	asyncHandler(async (req, res) => {
+		const updatedBook = req.body;
+		const result = await bookService.updateOne(
+			{ ownerEmail: req.user.userEmail, short_id: req.params.id },
+			updatedBook,
+		);
+		res.status(200).json(result);
+	}),
+);
 
-	const result = await bookService.updateOne({ name: currName }, updatedBook, {
-		new: true,
-	});
-	res.json(result);
-});
 
 module.exports = { bookRouter };

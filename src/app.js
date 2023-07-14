@@ -5,10 +5,13 @@ require('dotenv').config();
 const app = express();
 
 const { wordRouter } = require('./routers/word-router');
+const { meaningRouter } = require('./routers/meaning-router');
 const { bookRouter } = require('./routers/book-router');
 const { userRouter } = require('./routers/user-router');
 const { authRouter } = require('./routers/auth-router');
+const { searchRouter } = require('./routers/search-router');
 const { errorHandler } = require('./middlewares/error-handler');
+const { quizRouter } = require('./routers/quiz-router');
 
 const DB_URL =
 	process.env.MONGODB_URL || 'MongoDB 서버 주소가 설정되지 않았습니다.';
@@ -42,10 +45,12 @@ app.get('/', async (req, res) => {
 	res.send('api 페이지 접속 성공');
 });
 app.use('/api/words', wordRouter);
+app.use('/api/meanings', meaningRouter);
 app.use('/api/books', bookRouter);
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
-
+app.use('/api/search', searchRouter);
+app.use('/api/quiz', quizRouter);
 app.use(errorHandler);
 
 app.listen(process.env.PORT, () => {

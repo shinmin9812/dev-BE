@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const { authService } = require('../services/auth-service');
-const { verifyToken } = require('../middlewares/auth-handler');
 const authRouter = Router();
 
 authRouter.post('/login', async (req, res, next) => {

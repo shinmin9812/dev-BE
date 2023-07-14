@@ -5,11 +5,12 @@ const { shortId } = require('../../utils/short-id');
 const WordSchema = new Schema(
 	{
 		short_id: shortId,
-		english: { type: String, required: true },
-		korean: { type: String, required: true },
-		pronounce: { type: String },
-		description: { type: String },
-		book: { type: String, default: '기본단어장' },
+		word: { type: String, required: true },
+		meanings: { type: Array, required: true },
+		status: { type: Number, enum: [0, 1, 2], required: false, default: 0 },
+		/**0:미분류, 1:암기완료, 2:헷갈림 */
+		bookId: { type: String, required: true },
+		ownerEmail: { type: String, required: true },
 	},
 	{
 		collection: 'Word',
@@ -17,53 +18,12 @@ const WordSchema = new Schema(
 	},
 );
 
-/** 단어장 스키마 */
-const BookSchema = new Schema(
-	{
-		short_id: shortId,
-		name: { type: String, required: true },
-		words: [WordSchema],
-		description: { type: String },
-		start_lang: {
-			type: String,
-			enum: ['english', 'korean'],
-			default: 'english',
-			required: true,
-		},
-		end_lang: {
-			type: String,
-			enum: ['english', 'korean'],
-			default: 'korean',
-			required: true,
-		},
-	},
-	{
-		collection: 'Book',
-		timestamps: true,
-	},
-);
+const WordModel = model('Word', WordSchema);
 
-/** 책장 스키마 */
-const BookCaseSchema = new Schema(
-	{
-		name: {
-			type: [BookSchema],
-			required: false,
-		},
-	},
-	{
-		collection: 'BookCase',
-		timestamps: true,
-	},
-);
+module.exports = { WordModel };
 
 /** 단어, 단어장, 책장 모델 선언
  *  새로운 document를 생성하려 하면,
  *  아래 모델 클래스의 인스턴스로서 새로운 모델(mongoDB document)들이 생성되어
  *  db에 입력됩니다.
  */
-const WordModel = model('Word', WordSchema);
-const BookModel = model('Book', BookSchema);
-const BookCaseModel = model('BookCase', BookCaseSchema);
-
-module.exports = { WordModel, BookModel, BookCaseModel };
