@@ -17,7 +17,6 @@ class WordDAO {
 
 	async findSampleWords(bookId) {
 		const words = await WordModel.find({ bookId: bookId });
-		console.log(bookId);
 		return words;
 	}
 
@@ -110,9 +109,8 @@ class WordDAO {
 		return words;
 	}
 
-	async findWordsByIds(userEmail, ids) {
+	async findWordsByIds(ids) {
 		const words = WordModel.find({
-			ownerEmail: userEmail,
 			short_id: { $in: ids },
 		});
 

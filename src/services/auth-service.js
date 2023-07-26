@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { userService } = require('../services/user-service');
+const bcrypt = require('bcrypt');
 const { userDAO } = require('../db/dao/user-dao');
 
 class AuthService {
@@ -15,10 +15,7 @@ class AuthService {
 			}
 
 			// 비밀번호 검증
-			const isValidPassword = await userService.verifyPassword(
-				password,
-				user.password,
-			);
+			const isValidPassword = await bcrypt.compare(password, user.password);
 			if (!isValidPassword) {
 				const error = new Error('이메일 혹은 비밀번호가 일치하지 않습니다.');
 				error.status = 401;
@@ -32,7 +29,7 @@ class AuthService {
 
 			return token;
 		} catch (err) {
-			throw new Error(`로그인에 실패했습니다: ${err.message}`);
+			throw err;
 		}
 	}
 }

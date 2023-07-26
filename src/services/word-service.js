@@ -4,7 +4,6 @@ const { validateDate } = require('../utils/validator');
 
 class WordService {
 	async findWordsByBook(userEmail, book) {
-		console.log(book);
 		const words = await wordDAO.findWordsByBook(userEmail, book);
 		if (!words) {
 			const err = new Error('단어를 찾을 수 없습니다.');
@@ -62,10 +61,7 @@ class WordService {
 		const answersArray = [];
 		const selectionsArray = [];
 
-		const words = await wordDAO.findWordsByBookAndStatus(
-			statuses,
-			bookIds,
-		);
+		const words = await wordDAO.findWordsByBookAndStatus(statuses, bookIds);
 
 		/** words를 반환하지 못하면 에러 */
 		if (!words) {
@@ -266,8 +262,8 @@ class WordService {
 		return words;
 	}
 
-	async findWordsByIds(userEmail, ids) {
-		const word = await wordDAO.findWordsByIds(userEmail, ids);
+	async findWordsByIds(ids) {
+		const word = await wordDAO.findWordsByIds(ids);
 		if (!word) {
 			const err = new Error('단어들을 찾을 수 없습니다.');
 			err.status = 404;

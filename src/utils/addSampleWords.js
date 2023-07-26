@@ -15,7 +15,6 @@ async function addSampleWords(req, userEmail, bookId, res) {
 						word.ownerEmail = userEmail;
 						word.bookId = bookId;
 						word.meanings = meanings;
-						console.log(word);
 						resolve(word);
 					} catch (err) {
 						console.log(
